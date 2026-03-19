@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leads Workflow Dashboard</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --surface: #1e1e2e;
+            --surface-light: #2a2a3e;
+            --surface-lighter: #363650;
+            --text: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--surface) 0%, #0f0f1a 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: var(--radius);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            background: var(--surface-light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-dot.active {
+            background: var(--success);
+        }
+
+        .status-dot.inactive {
+            background: var(--danger);
+        }
+
+        .tabs-container {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--surface-light);
+            padding: 0.4rem;
+            border-radius: var(--radius);
+            min-width: max-content;
+        }
+
+        .tab {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: var(--surface-lighter);
+            color: var(--text);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tool-card {
+            background: var(--surface-light);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.25rem;
+        }
+
+        .tool-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-card>p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.875rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 0.875rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            width: auto;
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .results-summary {
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+        }
+
+        .summary-stat .value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-stat .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .lead-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .lead-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .lead-name {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .lead-website {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .lead-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .email-actions {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 0.75rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .lead-info {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Leads Workflow Dashboard</h1>
+            <p>Multi-channel lead generation: Suppliers, B2B, LinkedIn Jobs, News, SEO Outreach</p>
+        </header>
+
+        <div class="status-bar">
+            <div class="status-item"><span class="status-dot" id="apifyStatus"></span>Apify</div>
+            <div class="status-item"><span class="status-dot" id="apolloStatus"></span>Apollo</div>
+            <div class="status-item"><span class="status-dot" id="geminiStatus"></span>Gemini</div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab active" data-tab="suppliers" onclick="switchTab('suppliers')">📦 Suppliers</button>
+                <button class="tab" data-tab="b2b" onclick="switchTab('b2b')">🎯 B2B Leads</button>
+                <button class="tab" data-tab="linkedin" onclick="switchTab('linkedin')">💼 LinkedIn Jobs</button>
+                <button class="tab" data-tab="news" onclick="switchTab('news')">📰 News Leads</button>
+                <button class="tab" data-tab="google" onclick="switchTab('google')">🔍 Google/SEO</button>
+            </div>
+        </div>
+
+        <!-- SUPPLIERS TAB -->
+        <div class="tab-content active" id="suppliers-tab">
+            <div class="tool-card">
+                <h3>📦 Supplier Finder</h3>
+                <p>Search Google Maps for suppliers/manufacturers, get emails via Apollo, generate AI outreach</p>
+                <form id="supplierForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Product to Source *</label>
+                            <input type="text" id="product" placeholder="e.g., Bamboo furniture, Ceramic tiles"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Country *</label>
+                            <input type="text" id="country" placeholder="e.g., China, India, Vietnam, Turkey" required>
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Max Results</label>
+                            <input type="number" id="supplierMaxResults" value="25" min="5" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Rating (0-5)</label>
+                            <input type="number" id="supplierMinRating" value="0" min="0" max="5" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Reviews</label>
+                            <input type="number" id="supplierMinReviews" value="0" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Search Terms (comma-separated, optional)</label>
+                        <input type="text" id="supplierCustomTerms"
+                            placeholder="e.g., bamboo manufacturer, bamboo wholesale, bamboo exporter">
+                        <div class="hint">Leave empty to auto-generate: [product] manufacturer, [product] supplier, etc.
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact Titles (comma-separated)</label>
+                            <input type="text" id="supplierContactTitles"
+                                placeholder="e.g., Owner, Sales Manager, Export Manager">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Company Name</label>
+                            <input type="text" id="supplierCompanyName" placeholder="For email personalization">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="supplierSearchBtn">🔍 Find Suppliers</button>
+                </form>
+                <div class="loading" id="supplierLoading">
+                    <div class="spinner"></div>
+                    <p>Searching suppliers...</p>
+                </div>
+            </div>
+            <div class="results-section" id="supplierResults">
+                <div class="results-header">
+                    <h3>📋 Supplier Results</h3>
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="value" id="supplierBusinessCount">0</div>
+                            <div class="label">Found</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="supplierEmailCount">0</div>
+                            <div class="label">Emails</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="suppliersList"></div>
+            </div>
+        </div>
+
+        <!-- B2B LEADS TAB -->
+        <div class="tab-content" id="b2b-tab">
+            <div class="tool-card">
+                <h3>🎯 B2B Lead Finder</h3>
+                <p>Find companies by industry/location to offer your services</p>
+                <form id="b2bForm">
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Target Industry *</label>
+                            <input type="text" id="industry" placeholder="e.g., Real Estate, Restaurants" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Location *</label>
+                            <input type="text" id="location" placeholder="e.g., New York, London" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Service *</label>
+                            <input type="text" id="serviceOffering" placeholder="e.g., Digital Marketing, SEO" required>
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Max Results</label>
+                            <input type="number" id="b2bMaxResults" value="25" min="5" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Rating</label>
+                            <input type="number" id="b2bMinRating" value="0" min="0" max="5" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Reviews</label>
+                            <input type="number" id="b2bMinReviews" value="0" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Decision Maker Titles (comma-separated)</label>
+                        <input type="text" id="decisionMakerTitles" placeholder="e.g., CEO, Owner, Marketing Manager">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="yourName" placeholder="For email personalization">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Company</label>
+                            <input type="text" id="yourCompany" placeholder="For email personalization">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="b2bSearchBtn">🎯 Find B2B Leads</button>
+                </form>
+                <div class="loading" id="b2bLoading">
+                    <div class="spinner"></div>
+                    <p>Finding B2B leads...</p>
+                </div>
+            </div>
+            <div class="results-section" id="b2bResults">
+                <div class="results-header">
+                    <h3>🎯 B2B Results</h3>
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="value" id="b2bBusinessCount">0</div>
+                            <div class="label">Found</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="b2bEmailCount">0</div>
+                            <div class="label">Emails</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="b2bLeadsList"></div>
+            </div>
+        </div>
+
+        <!-- LINKEDIN JOBS TAB -->
+        <div class="tab-content" id="linkedin-tab">
+            <div class="tool-card">
+                <h3>💼 LinkedIn Jobs to Leads</h3>
+                <p>Find companies hiring for specific roles, then get decision-maker contacts</p>
+                <form id="linkedinForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Job Titles to Search * (comma-separated)</label>
+                            <input type="text" id="jobTitles"
+                                placeholder="e.g., Sales Manager, Business Development, Account Executive" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="linkedinLocation"
+                                placeholder="e.g., United States, European Union, Germany">
+                        </div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Industry Code</label>
+                            <input type="text" id="linkedinIndustry" value="23" placeholder="23=Food, 31=Hospitality">
+                            <div class="hint">LinkedIn industry codes: 23=Food, 31=Hospitality, 96=Tech</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jobs to Scrape</label>
+                            <input type="number" id="jobsCount" value="50" min="10" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Companies</label>
+                            <input type="number" id="linkedinMaxCompanies" value="20" min="5" max="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Decision Maker Titles (comma-separated)</label>
+                        <input type="text" id="linkedinDecisionTitles"
+                            placeholder="e.g., CEO, VP Sales, Sales Director, Owner">
+                    </div>
+                    <div class="form-group">
+                        <label>Custom LinkedIn Queries (pipe-separated, optional)</label>
+                        <input type="text" id="linkedinCustomQueries"
+                            placeholder="e.g., keywords=procurement|keywords=supply chain manager">
+                        <div class="hint">Use | to separate multiple queries. Leave empty to use job titles.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="linkedinSearchBtn">💼 Search LinkedIn
+                        Jobs</button>
+                </form>
+                <div class="loading" id="linkedinLoading">
+                    <div class="spinner"></div>
+                    <p>Searching LinkedIn jobs...</p>
+                </div>
+            </div>
+            <div class="results-section" id="linkedinResults">
+                <div class="results-header">
+                    <h3>💼 LinkedIn Results</h3>
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="value" id="linkedinJobsCount">0</div>
+                            <div class="label">Jobs</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="linkedinCompaniesCount">0</div>
+                            <div class="label">Companies</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="linkedinLeadsCount">0</div>
+                            <div class="label">Leads</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="linkedinLeadsList"></div>
+            </div>
+        </div>
+
+        <!-- NEWS LEADS TAB -->
+        <div class="tab-content" id="news-tab">
+            <div class="tool-card">
+                <h3>📰 News-Based Lead Generation</h3>
+                <p>Search Google for news/articles, extract companies mentioned, get contacts</p>
+                <form id="newsForm">
+                    <div class="form-group">
+                        <label>Search Queries * (pipe-separated)</label>
+                        <input type="text" id="newsQueries"
+                            placeholder="e.g., food companies tariffs|food exporters expansion|agricultural companies new markets"
+                            required>
+                        <div class="hint">Use | to separate multiple queries</div>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Results Per Query</label>
+                            <input type="number" id="newsMaxResults" value="20" min="5" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Search Country</label>
+                            <input type="text" id="newsSearchCountry" placeholder="e.g., us, uk, de">
+                        </div>
+                        <div class="form-group">
+                            <label>Search Language</label>
+                            <input type="text" id="newsSearchLanguage" placeholder="e.g., en, de, es">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Decision Maker Titles (comma-separated)</label>
+                        <input type="text" id="newsDecisionTitles"
+                            placeholder="e.g., CEO, VP International Sales, Export Manager">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="newsSearchBtn">📰 Find News Leads</button>
+                </form>
+                <div class="loading" id="newsLoading">
+                    <div class="spinner"></div>
+                    <p>Searching news & extracting leads...</p>
+                </div>
+            </div>
+            <div class="results-section" id="newsResults">
+                <div class="results-header">
+                    <h3>📰 News Results</h3>
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="value" id="newsArticlesCount">0</div>
+                            <div class="label">Articles</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="newsCompaniesCount">0</div>
+                            <div class="label">Companies</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="newsLeadsCount">0</div>
+                            <div class="label">Leads</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="newsLeadsList"></div>
+            </div>
+        </div>
+
+        <!-- GOOGLE/SEO TAB -->
+        <div class="tab-content" id="google-tab">
+            <div class="tool-card">
+                <h3>🔍 Google Search / SEO Outreach</h3>
+                <p>Find websites via Google search for PR/SEO outreach, backlinks, partnerships</p>
+                <form id="googleForm">
+                    <div class="form-group">
+                        <label>Search Queries * (pipe-separated)</label>
+                        <input type="text" id="googleQueries"
+                            placeholder="e.g., home decor blog|interior design tips|sustainable furniture blogs"
+                            required>
+                    </div>
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>Results Per Query</label>
+                            <input type="number" id="googleMaxResults" value="50" min="10" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Search Country</label>
+                            <input type="text" id="googleSearchCountry" placeholder="e.g., us, uk">
+                        </div>
+                        <div class="form-group">
+                            <label>Search Language</label>
+                            <input type="text" id="googleSearchLanguage" placeholder="e.g., en">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Industry Description (for Gemini filtering)</label>
+                        <input type="text" id="googleIndustryDesc"
+                            placeholder="e.g., home decor blogs, interior design websites, lifestyle content sites">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Titles (comma-separated)</label>
+                        <input type="text" id="googleContactTitles"
+                            placeholder="e.g., Content Manager, Editor, Marketing Manager, Owner">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="googleSearchBtn">🔍 Find SEO Leads</button>
+                </form>
+                <div class="loading" id="googleLoading">
+                    <div class="spinner"></div>
+                    <p>Searching Google & qualifying sites...</p>
+                </div>
+            </div>
+            <div class="results-section" id="googleResults">
+                <div class="results-header">
+                    <h3>🔍 Google/SEO Results</h3>
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="value" id="googleDomainsCount">0</div>
+                            <div class="label">Domains</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="googleQualifiedCount">0</div>
+                            <div class="label">Qualified</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="value" id="googleLeadsCount">0</div>
+                            <div class="label">Leads</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="googleLeadsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        }
+
+        async function checkConfig() {
+            try {
+                const response = await fetch('/api/config-status');
+                const data = await response.json();
+                ['apify', 'apollo', 'gemini'].forEach(key => {
+                    const el = document.getElementById(key + 'Status');
+                    el.classList.toggle('active', data.status[key]);
+                    el.classList.toggle('inactive', !data.status[key]);
+                });
+            } catch (e) { console.error('Config check failed:', e); }
+        }
+
+        function showLoading(id) { document.getElementById(id).classList.add('active'); }
+        function hideLoading(id) { document.getElementById(id).classList.remove('active'); }
+
+        function displayLeads(leads, containerId, fields = ['email', 'title', 'linkedin']) {
+            const container = document.getElementById(containerId);
+            if (!leads || !leads.length) {
+                container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:1rem;">No leads found. Try different search criteria.</p>';
+                return;
+            }
+            container.innerHTML = leads.map((lead, i) => `
+                <div class="lead-card">
+                    <div class="lead-header">
+                        <div>
+                            <div class="lead-name">${lead.fullName || lead.businessName || lead.companyName || 'Unknown'}</div>
+                            <a href="${lead.website || lead.companyWebsite || '#'}" target="_blank" class="lead-website">${lead.website || lead.companyWebsite || ''}</a>
+                        </div>
+                        <span style="color:var(--text-muted);font-size:0.8rem;">#${i + 1}</span>
+                    </div>
+                    <div class="lead-info">
+                        <div><div class="info-label">Email</div><div>${lead.email || 'N/A'}</div></div>
+                        <div><div class="info-label">Title</div><div>${lead.title || lead.contactTitle || lead.position || 'N/A'}</div></div>
+                        <div><div class="info-label">Company</div><div>${lead.companyName || lead.businessName || 'N/A'}</div></div>
+                        <div><div class="info-label">Contact</div><div>${lead.contactName || lead.fullName || 'N/A'}</div></div>
+                    </div>
+                    <div class="email-actions">
+                        ${lead.email ? `<button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${lead.email}');alert('Copied!')">📋 Copy</button>` : ''}
+                        ${lead.email ? `<button class="btn btn-secondary btn-sm" onclick="window.open('https://mail.google.com/mail/?view=cm&to=${lead.email}','_blank')">📧 Gmail</button>` : ''}
+                        ${lead.linkedin ? `<a href="${lead.linkedin}" target="_blank" class="btn btn-secondary btn-sm">💼 LinkedIn</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // SUPPLIER FORM
+        document.getElementById('supplierForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            showLoading('supplierLoading');
+            document.getElementById('supplierSearchBtn').disabled = true;
+            document.getElementById('supplierResults').classList.remove('active');
+            try {
+                const customTerms = document.getElementById('supplierCustomTerms').value.trim();
+                const contactTitles = document.getElementById('supplierContactTitles').value.trim();
+                const res = await fetch('/api/find-suppliers-manual', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        product: document.getElementById('product').value.trim(),
+                        country: document.getElementById('country').value.trim(),
+                        maxResults: parseInt(document.getElementById('supplierMaxResults').value),
+                        minRating: parseFloat(document.getElementById('supplierMinRating').value),
+                        minReviews: parseInt(document.getElementById('supplierMinReviews').value),
+                        customSearchTerms: customTerms ? customTerms.split(',').map(t => t.trim()) : [],
+                        contactTitles: contactTitles ? contactTitles.split(',').map(t => t.trim()) : [],
+                        senderInfo: { companyName: document.getElementById('supplierCompanyName').value.trim() }
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                document.getElementById('supplierBusinessCount').textContent = data.businessesFound;
+                document.getElementById('supplierEmailCount').textContent = data.emailsFound;
+                displayLeads(data.campaigns, 'suppliersList');
+                document.getElementById('supplierResults').classList.add('active');
+            } catch (err) { alert('Error: ' + err.message); }
+            finally { hideLoading('supplierLoading'); document.getElementById('supplierSearchBtn').disabled = false; }
+        });
+
+        // B2B FORM
+        document.getElementById('b2bForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            showLoading('b2bLoading');
+            document.getElementById('b2bSearchBtn').disabled = true;
+            document.getElementById('b2bResults').classList.remove('active');
+            try {
+                const titles = document.getElementById('decisionMakerTitles').value.trim();
+                const res = await fetch('/api/find-b2b-leads', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        industry: document.getElementById('industry').value.trim(),
+                        location: document.getElementById('location').value.trim(),
+                        serviceOffering: document.getElementById('serviceOffering').value.trim(),
+                        maxResults: parseInt(document.getElementById('b2bMaxResults').value),
+                        minRating: parseFloat(document.getElementById('b2bMinRating').value),
+                        minReviews: parseInt(document.getElementById('b2bMinReviews').value),
+                        decisionMakerTitles: titles ? titles.split(',').map(t => t.trim()) : [],
+                        senderInfo: { yourName: document.getElementById('yourName').value.trim(), companyName: document.getElementById('yourCompany').value.trim() }
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                document.getElementById('b2bBusinessCount').textContent = data.businessesFound;
+                document.getElementById('b2bEmailCount').textContent = data.emailsFound;
+                displayLeads(data.leads, 'b2bLeadsList');
+                document.getElementById('b2bResults').classList.add('active');
+            } catch (err) { alert('Error: ' + err.message); }
+            finally { hideLoading('b2bLoading'); document.getElementById('b2bSearchBtn').disabled = false; }
+        });
+
+        // LINKEDIN FORM
+        document.getElementById('linkedinForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            showLoading('linkedinLoading');
+            document.getElementById('linkedinSearchBtn').disabled = true;
+            document.getElementById('linkedinResults').classList.remove('active');
+            try {
+                const titles = document.getElementById('linkedinDecisionTitles').value.trim();
+                const res = await fetch('/api/linkedin-jobs', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jobTitles: document.getElementById('jobTitles').value.trim(),
+                        location: document.getElementById('linkedinLocation').value.trim(),
+                        industry: document.getElementById('linkedinIndustry').value.trim(),
+                        jobsCount: parseInt(document.getElementById('jobsCount').value),
+                        maxCompanies: parseInt(document.getElementById('linkedinMaxCompanies').value),
+                        decisionMakerTitles: titles,
+                        customQueries: document.getElementById('linkedinCustomQueries').value.trim()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                document.getElementById('linkedinJobsCount').textContent = data.jobsFound;
+                document.getElementById('linkedinCompaniesCount').textContent = data.companiesFound;
+                document.getElementById('linkedinLeadsCount').textContent = data.leadsFound;
+                displayLeads(data.leads, 'linkedinLeadsList');
+                document.getElementById('linkedinResults').classList.add('active');
+            } catch (err) { alert('Error: ' + err.message); }
+            finally { hideLoading('linkedinLoading'); document.getElementById('linkedinSearchBtn').disabled = false; }
+        });
+
+        // NEWS FORM
+        document.getElementById('newsForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            showLoading('newsLoading');
+            document.getElementById('newsSearchBtn').disabled = true;
+            document.getElementById('newsResults').classList.remove('active');
+            try {
+                const titles = document.getElementById('newsDecisionTitles').value.trim();
+                const res = await fetch('/api/news-leads', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        searchQueries: document.getElementById('newsQueries').value.trim(),
+                        maxResultsPerQuery: parseInt(document.getElementById('newsMaxResults').value),
+                        searchCountry: document.getElementById('newsSearchCountry').value.trim(),
+                        searchLanguage: document.getElementById('newsSearchLanguage').value.trim(),
+                        decisionMakerTitles: titles
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                document.getElementById('newsArticlesCount').textContent = data.articlesExtracted;
+                document.getElementById('newsCompaniesCount').textContent = data.companiesFound;
+                document.getElementById('newsLeadsCount').textContent = data.leadsFound;
+                displayLeads(data.leads, 'newsLeadsList');
+                document.getElementById('newsResults').classList.add('active');
+            } catch (err) { alert('Error: ' + err.message); }
+            finally { hideLoading('newsLoading'); document.getElementById('newsSearchBtn').disabled = false; }
+        });
+
+        // GOOGLE FORM
+        document.getElementById('googleForm').addEventListener('submit', async e => {
+            e.preventDefault();
+            showLoading('googleLoading');
+            document.getElementById('googleSearchBtn').disabled = true;
+            document.getElementById('googleResults').classList.remove('active');
+            try {
+                const titles = document.getElementById('googleContactTitles').value.trim();
+                const res = await fetch('/api/google-search-leads', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        searchQueries: document.getElementById('googleQueries').value.trim(),
+                        maxResultsPerQuery: parseInt(document.getElementById('googleMaxResults').value),
+                        searchCountry: document.getElementById('googleSearchCountry').value.trim(),
+                        searchLanguage: document.getElementById('googleSearchLanguage').value.trim(),
+                        industryDescription: document.getElementById('googleIndustryDesc').value.trim(),
+                        decisionMakerTitles: titles
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error);
+                document.getElementById('googleDomainsCount').textContent = data.domainsFound;
+                document.getElementById('googleQualifiedCount').textContent = data.domainsQualified;
+                document.getElementById('googleLeadsCount').textContent = data.leadsFound;
+                displayLeads(data.leads, 'googleLeadsList');
+                document.getElementById('googleResults').classList.add('active');
+            } catch (err) { alert('Error: ' + err.message); }
+            finally { hideLoading('googleLoading'); document.getElementById('googleSearchBtn').disabled = false; }
+        });
+
+        checkConfig();
+    </script>
+</body>
+
+</html>

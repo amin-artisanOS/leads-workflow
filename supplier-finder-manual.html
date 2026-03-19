@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Supplier Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.25rem;
+        }
+
+        .mode-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #818cf8;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.2);
+        }
+
+        .example-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.1);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .status-pill.active {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        .status-pill.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+
+        .mode-label {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 16px;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            max-width: 250px;
+            text-align: center;
+        }
+
+        .mode-label:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .mode-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-title {
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .mode-desc {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .mode-label.selected-mode {
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.1);
+            box-shadow: 0 0 0 2px #818cf8;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            margin-top: 1rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .results {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary h3 {
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            font-weight: 500;
+            color: #94a3b8;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #818cf8;
+        }
+
+        .supplier-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .supplier-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(129, 140, 248, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .supplier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .supplier-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .supplier-website {
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .supplier-website:hover {
+            text-decoration: underline;
+        }
+
+        .supplier-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            color: #e2e8f0;
+            word-break: break-word;
+            font-weight: 500;
+        }
+
+        .email-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .email-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .email-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .email-btn.copy {
+            background: #28a745;
+            color: white;
+        }
+
+        .email-btn.copy:hover {
+            background: #218838;
+        }
+
+        .email-btn.gmail {
+            background: #ea4335;
+            color: white;
+        }
+
+        .email-btn.gmail:hover {
+            background: #d33b2c;
+        }
+
+        .email-btn.outlook {
+            background: #0078d4;
+            color: white;
+        }
+
+        .email-btn.outlook:hover {
+            background: #106ebe;
+        }
+
+        .email-content {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .email-subject {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #818cf8;
+            font-size: 1.1rem;
+        }
+
+        .email-body {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #cbd5e1;
+        }
+
+        .no-email {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .country-card {
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .country-card:hover {
+            border-color: rgba(129, 140, 248, 0.5);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .country-card.selected {
+            border-color: #818cf8;
+            background: rgba(129, 140, 248, 0.1);
+            box-shadow: 0 0 0 2px #818cf8;
+        }
+
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .country-name {
+            font-weight: 700;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .country-description {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .supplier-info {
+                grid-template-columns: 1fr;
+            }
+
+            .email-actions {
+                flex-direction: column;
+            }
+
+            .countries-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="mode-badge">📋 MANUAL MODE</div>
+            <h1>Manual Supplier Finder</h1>
+            <p>Find suppliers and copy-paste emails manually</p>
+
+            <div id="config-status-bar"
+                style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; font-size: 0.8rem;">
+                <span id="status-apify" class="status-pill">Apify: Checking...</span>
+                <span id="status-apollo" class="status-pill">Apollo: Checking...</span>
+                <span id="status-gemini" class="status-pill">Gemini: Checking...</span>
+            </div>
+
+            <div class="search-mode-selector"
+                style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
+                <label class="mode-label" id="mode-maps-label">
+                    <input type="radio" name="searchType" value="google-maps" checked style="display: none;"
+                        onchange="updateSearchMode('google-maps')">
+                    <div class="mode-icon">📍</div>
+                    <div class="mode-title">Google Maps</div>
+                    <div class="mode-desc">Best for physical factories & wholesalers</div>
+                </label>
+                <label class="mode-label" id="mode-search-label">
+                    <input type="radio" name="searchType" value="google-search" style="display: none;"
+                        onchange="updateSearchMode('google-search')">
+                    <div class="mode-icon">🔍</div>
+                    <div class="mode-title">Google Search</div>
+                    <div class="mode-desc">Shopify stores & artisan brands</div>
+                </label>
+            </div>
+        </div>
+
+        <form id="supplier-form">
+            <div class="form-group">
+                <label for="product">What do you want to sell?</label>
+                <input type="text" id="product"
+                    placeholder="e.g., Azulejos de decoracion de hogar, Wireless Earbuds, Yoga Mats" required>
+                <div class="example-text">
+                    Can be in any language - Spanish, English, Portuguese, etc.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select sourcing country:</label>
+                <div class="countries-grid">
+                    <div class="country-card" data-country="China">
+                        <div class="country-flag">🇨🇳</div>
+                        <div class="country-name">China</div>
+                        <div class="country-description">Electronics, toys, home goods</div>
+                    </div>
+                    <div class="country-card" data-country="Vietnam">
+                        <div class="country-flag">🇻🇳</div>
+                        <div class="country-name">Vietnam</div>
+                        <div class="country-description">Fashion, furniture, electronics</div>
+                    </div>
+                    <div class="country-card" data-country="India">
+                        <div class="country-flag">🇮🇳</div>
+                        <div class="country-name">India</div>
+                        <div class="country-description">Textiles, jewelry, spices</div>
+                    </div>
+                    <div class="country-card" data-country="Turkey">
+                        <div class="country-flag">🇹🇷</div>
+                        <div class="country-name">Turkey</div>
+                        <div class="country-description">Textiles, furniture, machinery</div>
+                    </div>
+                    <div class="country-card" data-country="Italy">
+                        <div class="country-flag">🇮🇹</div>
+                        <div class="country-name">Italy</div>
+                        <div class="country-description">Fashion, design, premium goods</div>
+                    </div>
+                    <div class="country-card" data-country="Spain">
+                        <div class="country-flag">🇪🇸</div>
+                        <div class="country-name">Spain</div>
+                        <div class="country-description">Fashion, wine, ceramics</div>
+                    </div>
+                    <div class="country-card" data-country="Brazil">
+                        <div class="country-flag">🇧🇷</div>
+                        <div class="country-name">Brazil</div>
+                        <div class="country-description">Coffee, furniture, cosmetics</div>
+                    </div>
+                    <div class="country-card" data-country="Mexico">
+                        <div class="country-flag">🇲🇽</div>
+                        <div class="country-name">Mexico</div>
+                        <div class="country-description">Electronics, automotive, textiles</div>
+                    </div>
+                </div>
+                <input type="hidden" id="country" name="country">
+            </div>
+
+            <div id="dorking-options" style="display: none; margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #333;">Choose a "Google
+                    Dork" Strategy:</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.75rem;"
+                        onclick="setDork('handmade')">Handmade / Artisan</button>
+                    <button type="button" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.75rem;"
+                        onclick="setDork('inventory')">Inventory Heavy</button>
+                    <button type="button" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.75rem;"
+                        onclick="setDork('products')">Product Specific</button>
+                    <button type="button" class="btn btn-secondary" style="font-size: 0.9rem; padding: 0.75rem;"
+                        onclick="setDork('custom')">Custom Dorks</button>
+                </div>
+                <div id="custom-dorks-container" style="display: none; margin-top: 1rem;">
+                    <textarea id="custom-dorks"
+                        placeholder="Enter one dork per line, e.g. site:myshopify.com 'handmade jewelry'"
+                        style="width: 100%; padding: 1rem; border: 2px solid #e1e5e9; border-radius: 10px; min-height: 100px; font-family: monospace;"></textarea>
+                </div>
+                <div id="active-dork-preview"
+                    style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 10px; font-size: 0.85rem; border-left: 4px solid #667eea; display: none;">
+                    <strong>Queries to be used:</strong>
+                    <div id="dork-list" style="margin-top: 0.5rem; color: #555;"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary"
+                    style="font-size: 0.9rem; padding: 0.75rem; margin-bottom: 1rem;"
+                    onclick="document.getElementById('sender-config').style.display = document.getElementById('sender-config').style.display === 'none' ? 'block' : 'none'">
+                    ⚙️ Your Information (Optional)
+                </button>
+                <div id="sender-config"
+                    style="display: none; padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 1.5rem;">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Your Name:</label>
+                        <input type="text" id="sender-name" placeholder="e.g. Alex Smith"
+                            style="width: 100%; padding: 0.75rem; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Company Name:</label>
+                        <input type="text" id="sender-company" placeholder="e.g. LuxDecor Studios"
+                            style="width: 100%; padding: 0.75rem; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Store
+                            Description:</label>
+                        <textarea id="sender-desc" placeholder="e.g. A premium home decor retailer based in Madrid"
+                            style="width: 100%; padding: 0.75rem; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); color: white; min-height: 80px;"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">
+                🔍 Find Suppliers
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Finding suppliers and generating emails...</p>
+            <p>This may take a few minutes</p>
+        </div>
+
+        <div class="results" id="results">
+            <div class="summary">
+                <h3>📊 Search Results</h3>
+                <div class="stat">
+                    <span class="stat-label">Product:</span>
+                    <span class="stat-value" id="result-product"></span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Country:</span>
+                    <span class="stat-value" id="result-country"></span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Businesses Found:</span>
+                    <span class="stat-value" id="businesses-found">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Emails Found:</span>
+                    <span class="stat-value" id="emails-found">0</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn" id="download-btn" style="flex: 1; display: none;" onclick="downloadCSV()">
+                        📥 Download CSV
+                    </button>
+                    <button class="btn btn-secondary" style="flex: 1; margin-bottom: 0;" onclick="clearResults()">
+                        🗑️ Clear
+                    </button>
+                </div>
+            </div>
+
+            <div id="suppliers-list">
+                <!-- Supplier cards will be inserted here -->
+            </div>
+
+            <div class="download-section" id="csv-export-area" style="display: none;">
+                <button class="btn" onclick="downloadCSV()">
+                    📥 Download Complete CSV
+                </button>
+                <p style="margin-top: 1rem; color: #666;">
+                    Download all supplier data with contact information and email templates
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search Mode Toggle
+        let currentSearchMode = 'google-maps';
+        const GOOGLE_DORKS = {
+            handmade: [
+                'site:myshopify.com "handmade jewelry"',
+                'site:myshopify.com "hand-poured" candles',
+                'site:myshopify.com "handcrafted" pottery',
+                '"powered by shopify" "artisan goods"'
+            ],
+            inventory: [
+                'site:myshopify.com "raw materials" artisan',
+                'site:myshopify.com "wholesale supplies" handmade'
+            ],
+            products: [], // Will be filled dynamically based on product input
+            custom: []
+        };
+
+        function updateSearchMode(mode) {
+            currentSearchMode = mode;
+            const mapsLabel = document.getElementById('mode-maps-label');
+            const searchLabel = document.getElementById('mode-search-label');
+            const dorkingOptions = document.getElementById('dorking-options');
+
+            if (mode === 'google-search') {
+                searchLabel.classList.add('selected-mode');
+                mapsLabel.classList.remove('selected-mode');
+                dorkingOptions.style.display = 'block';
+            } else {
+                mapsLabel.classList.add('selected-mode');
+                searchLabel.classList.remove('selected-mode');
+                dorkingOptions.style.display = 'none';
+            }
+        }
+
+        let selectedDorks = [];
+
+        function setDork(type) {
+            const product = document.getElementById('product').value.trim() || 'artisan';
+            const dorkList = document.getElementById('dork-list');
+            const preview = document.getElementById('active-dork-preview');
+            const customContainer = document.getElementById('custom-dorks-container');
+
+            customContainer.style.display = type === 'custom' ? 'block' : 'none';
+
+            if (type === 'products') {
+                selectedDorks = [
+                    `site:myshopify.com "${product}"`,
+                    `site:myshopify.com "handmade ${product}"`,
+                    `"powered by shopify" "${product}" artisan`
+                ];
+            } else if (type === 'handmade') {
+                selectedDorks = GOOGLE_DORKS.handmade;
+            } else if (type === 'inventory') {
+                selectedDorks = GOOGLE_DORKS.inventory;
+            } else if (type === 'custom') {
+                selectedDorks = [];
+                preview.style.display = 'none';
+                return;
+            }
+
+            dorkList.innerHTML = selectedDorks.map(d => `<div>• ${d}</div>`).join('');
+            preview.style.display = 'block';
+        }
+
+        // Initialize mode
+        updateSearchMode('google-maps');
+
+        // Country selection
+        document.querySelectorAll('.country-card').forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove selected class from all cards
+                document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                // Set hidden input value
+                document.getElementById('country').value = this.dataset.country;
+            });
+        });
+
+        // Form submission
+        document.getElementById('supplier-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const product = document.getElementById('product').value.trim();
+            const country = document.getElementById('country').value;
+            const customDorksText = document.getElementById('custom-dorks').value.trim();
+
+            if (currentSearchMode === 'google-maps' && (!product || !country)) {
+                alert('Please enter a product and select a country for Google Maps search');
+                return;
+            }
+
+            if (currentSearchMode === 'google-search' && !product && !selectedDorks.length && !customDorksText) {
+                alert('Please enter a product or choose/enter a dork strategy');
+                return;
+            }
+
+            // Prepare custom terms if needed
+            let finalCustomSearchTerms = [];
+            if (currentSearchMode === 'google-search') {
+                if (customDorksText) {
+                    finalCustomSearchTerms = customDorksText.split('\n').map(l => l.trim()).filter(Boolean);
+                } else if (selectedDorks.length > 0) {
+                    finalCustomSearchTerms = selectedDorks;
+                }
+            }
+
+            // Show loading
+            document.getElementById('supplier-form').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            const senderName = document.getElementById('sender-name').value.trim();
+            const senderCompany = document.getElementById('sender-company').value.trim();
+            const senderDesc = document.getElementById('sender-desc').value.trim();
+
+            const senderInfo = (senderName || senderCompany || senderDesc) ? {
+                yourName: senderName,
+                companyName: senderCompany,
+                storeDescription: senderDesc
+            } : undefined;
+
+            try {
+                // Send request to backend
+                const response = await fetch('/api/find-suppliers-manual', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product: product,
+                        country: country,
+                        searchType: currentSearchMode,
+                        customSearchTerms: finalCustomSearchTerms.length > 0 ? finalCustomSearchTerms : undefined,
+                        senderInfo: senderInfo
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const result = await response.json();
+
+                // Hide loading, show results
+                document.getElementById('loading').classList.remove('show');
+                document.getElementById('results').classList.add('show');
+
+                // Update summary
+                document.getElementById('result-product').textContent = result.product;
+                document.getElementById('result-country').textContent = result.country;
+                document.getElementById('businesses-found').textContent = result.businessesFound;
+                document.getElementById('emails-found').textContent = result.emailsFound;
+
+                // Show download section
+                if (result.csvFilename) {
+                    window.csvFilename = result.csvFilename;
+                    document.getElementById('csv-export-area').style.display = 'block';
+                    const mainDownloadBtn = document.getElementById('download-btn');
+                    if (mainDownloadBtn) mainDownloadBtn.style.display = 'inline-block';
+                }
+
+                // Display suppliers
+                displaySuppliers(result.campaigns);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error finding suppliers. Check your API keys and try again.\n\nDetails: ' + error.message);
+                document.getElementById('supplier-form').style.display = 'block';
+                document.getElementById('loading').classList.remove('show');
+            }
+        });
+
+        function displaySuppliers(campaigns) {
+            const container = document.getElementById('suppliers-list');
+            container.innerHTML = '';
+
+            if (campaigns.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No suppliers with emails found. Try a different product or country.</p>';
+                return;
+            }
+
+            campaigns.forEach((campaign, index) => {
+                const card = document.createElement('div');
+                card.className = 'supplier-card';
+
+                card.innerHTML = `
+                    <div class="supplier-header">
+                        <div>
+                            <div class="supplier-name">${campaign.businessName}</div>
+                            <a href="${campaign.website}" target="_blank" class="supplier-website">${campaign.website}</a>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            #${index + 1}
+                        </div>
+                    </div>
+
+                    <div class="supplier-info">
+                        <div class="info-item">
+                            <div class="info-label">Email:</div>
+                            <div class="info-value">${campaign.email}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone:</div>
+                            <div class="info-value">${campaign.phone || 'N/A'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Address:</div>
+                            <div class="info-value">${campaign.address}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Category:</div>
+                            <div class="info-value">${campaign.category || 'N/A'}</div>
+                        </div>
+                    </div>
+
+                    <div class="email-section">
+                        <div class="email-actions">
+                            <button class="email-btn copy" onclick="copyToClipboard('${campaign.email}')">
+                                📋 Copy Email
+                            </button>
+                            <button class="email-btn gmail" onclick="openGmail('${campaign.email}', '${campaign.subject}', '${encodeURIComponent(campaign.body)}')">
+                                📧 Open in Gmail
+                            </button>
+                            <button class="email-btn outlook" onclick="openOutlook('${campaign.email}', '${campaign.subject}', '${encodeURIComponent(campaign.body)}')">
+                                📧 Open in Outlook
+                            </button>
+                        </div>
+
+                        <div class="email-content">
+                            <div class="email-subject">${campaign.subject}</div>
+                            <div class="email-body">${campaign.body}</div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Email copied to clipboard!');
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Email copied to clipboard!');
+            });
+        }
+
+        function openGmail(email, subject, body) {
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${body}`;
+            window.open(gmailUrl, '_blank');
+        }
+
+        function openOutlook(email, subject, body) {
+            const outlookUrl = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(email)}&subject=${encodeURIComponent(subject)}&body=${body}`;
+            window.open(outlookUrl, '_blank');
+        }
+
+        function downloadCSV() {
+            if (!window.csvFilename) {
+                alert('No CSV file available for download');
+                return;
+            }
+
+            // Create download link
+            const link = document.createElement('a');
+            link.href = `/api/download-csv-manual/${window.csvFilename}`;
+            link.download = window.csvFilename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Check API configuration on page load
+        async function checkConfiguration() {
+            try {
+                const response = await fetch('/api/config-status-manual');
+                const config = await response.json();
+
+                updateStatusPill('status-apify', 'Apify', config.status.apify);
+                updateStatusPill('status-apollo', 'Apollo', config.status.apollo);
+                updateStatusPill('status-gemini', 'Gemini', config.status.gemini);
+
+                if (!config.configured) {
+                    console.warn('Some API keys are missing');
+                }
+            } catch (error) {
+                console.log('Could not check configuration:', error);
+            }
+        }
+
+        function updateStatusPill(id, name, isActive) {
+            const el = document.getElementById(id);
+            if (isActive) {
+                el.textContent = `${name}: Active`;
+                el.classList.add('active');
+            } else {
+                el.textContent = `${name}: Missing`;
+                el.classList.add('error');
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('supplier-form').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            checkConfiguration();
+        });
+    </script>
+</body>
+
+</html>

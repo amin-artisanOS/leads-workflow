@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Outreach Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 4px;
+            height: 8px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+            }
+
+            .tab.active {
+                border-bottom: none;
+                border-left-color: #667eea;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏪 Supplier Outreach Dashboard</h1>
+        <p>Manage your ecommerce supplier discovery and outreach campaigns</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('overview')">Overview</div>
+            <div class="tab" onclick="showTab('products')">Products</div>
+            <div class="tab" onclick="showTab('campaigns')">Campaigns</div>
+            <div class="tab" onclick="showTab('outreach')">Outreach</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <h3>📦 Products</h3>
+                    <div class="stat">
+                        <span>Total Products</span>
+                        <span class="stat-value" id="total-products">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Active Products</span>
+                        <span class="stat-value" id="active-products">0</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="showTab('products')">Manage Products</button>
+                        <button class="btn btn-secondary" onclick="runCommand('supplier-list-products')">View List</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📧 Campaigns</h3>
+                    <div class="stat">
+                        <span>Total Campaigns</span>
+                        <span class="stat-value" id="total-campaigns">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Emails Sent</span>
+                        <span class="stat-value" id="emails-sent">0</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="campaign-progress" style="width: 0%"></div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="showTab('campaigns')">View Campaigns</button>
+                        <button class="btn btn-secondary" onclick="runCommand('supplier-status')">Campaign Status</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Pipeline Status</h3>
+                    <div class="stat">
+                        <span>Qualified Suppliers</span>
+                        <span class="stat-value" id="qualified-suppliers">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Pending Outreach</span>
+                        <span class="stat-value" id="pending-outreach">0</span>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="runPipeline()">Run Pipeline</button>
+                        <button class="btn btn-secondary" onclick="runCommand('supplier-pipeline:dry')">Dry Run</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🚀 Quick Actions</h3>
+                    <div class="btn-group">
+                        <button class="btn" onclick="runCommand('supplier-add-product')">Add Product</button>
+                        <button class="btn" onclick="generateEmails()">Generate Emails</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="startOutreach()">Start Outreach</button>
+                        <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products" class="tab-content">
+            <div class="card">
+                <h3>📦 Product Catalog</h3>
+                <table class="table" id="products-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price Range</th>
+                            <th>Demand</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="loading">Loading products...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btn-group">
+                    <button class="btn" onclick="runCommand('supplier-add-product')">Add New Product</button>
+                    <button class="btn btn-secondary" onclick="refreshProducts()">Refresh</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaigns Tab -->
+        <div id="campaigns" class="tab-content">
+            <div class="card">
+                <h3>📧 Email Campaigns</h3>
+                <table class="table" id="campaigns-table">
+                    <thead>
+                        <tr>
+                            <th>Campaign Name</th>
+                            <th>Emails Generated</th>
+                            <th>Emails Sent</th>
+                            <th>Success Rate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="5" class="loading">Loading campaigns...</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="btn-group">
+                    <button class="btn" onclick="runCommand('supplier-emails')">Generate New Campaign</button>
+                    <button class="btn btn-secondary" onclick="runCommand('supplier-status')">View Status</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outreach Tab -->
+        <div id="outreach" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <h3>📧 Send Emails</h3>
+                    <form id="outreach-form">
+                        <div class="form-group">
+                            <label for="campaign-select">Select Campaign:</label>
+                            <select id="campaign-select" required>
+                                <option value="">Choose a campaign...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="max-emails">Max Emails to Send:</label>
+                            <input type="number" id="max-emails" value="10" min="1" max="50">
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn">Start Outreach</button>
+                            <button type="button" class="btn btn-secondary" onclick="dryRunOutreach()">Dry Run</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Outreach Statistics</h3>
+                    <div class="stat">
+                        <span>Total Sent Today</span>
+                        <span class="stat-value" id="sent-today">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Success Rate</span>
+                        <span class="stat-value" id="success-rate">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="daily-progress" style="width: 0%"></div>
+                    </div>
+                    <button class="btn" onclick="runCommand('supplier-status')">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Load tab data
+            if (tabName === 'products') {
+                loadProducts();
+            } else if (tabName === 'campaigns') {
+                loadCampaigns();
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // This would normally fetch from your backend
+                // For now, we'll simulate loading data
+                document.getElementById('total-products').textContent = '3';
+                document.getElementById('active-products').textContent = '3';
+                document.getElementById('total-campaigns').textContent = '1';
+                document.getElementById('emails-sent').textContent = '25';
+                document.getElementById('qualified-suppliers').textContent = '45';
+                document.getElementById('pending-outreach').textContent = '20';
+
+                // Update progress bars
+                document.getElementById('campaign-progress').style.width = '55%';
+                document.getElementById('daily-progress').style.width = '30%';
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // Load products
+        async function loadProducts() {
+            const tbody = document.querySelector('#products-table tbody');
+            tbody.innerHTML = '<tr><td colspan="5" class="loading">Loading products...</td></tr>';
+
+            // Simulate loading products
+            setTimeout(() => {
+                tbody.innerHTML = `
+                    <tr>
+                        <td>Wireless Earbuds</td>
+                        <td>Electronics</td>
+                        <td>$15-25</td>
+                        <td>500</td>
+                        <td><span class="status-badge status-success">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>Yoga Mats</td>
+                        <td>Fitness</td>
+                        <td>$20-35</td>
+                        <td>200</td>
+                        <td><span class="status-badge status-success">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td>Ceramic Planters</td>
+                        <td>Home & Garden</td>
+                        <td>$25-50</td>
+                        <td>150</td>
+                        <td><span class="status-badge status-success">Active</span></td>
+                    </tr>
+                `;
+            }, 1000);
+        }
+
+        // Load campaigns
+        async function loadCampaigns() {
+            const tbody = document.querySelector('#campaigns-table tbody');
+            tbody.innerHTML = '<tr><td colspan="5" class="loading">Loading campaigns...</td></tr>';
+
+            setTimeout(() => {
+                tbody.innerHTML = `
+                    <tr>
+                        <td>supplier-outreach-2025-01-01</td>
+                        <td>45</td>
+                        <td>25</td>
+                        <td>85%</td>
+                        <td><span class="status-badge status-success">Active</span></td>
+                    </tr>
+                `;
+            }, 1000);
+        }
+
+        // Run terminal commands
+        function runCommand(command) {
+            // This would normally execute the command on the server
+            console.log(`Running command: ${command}`);
+            alert(`Command executed: ${command}\\n\\nCheck your terminal for output.`);
+        }
+
+        // Pipeline functions
+        function runPipeline() {
+            if (confirm('Start the supplier outreach pipeline? This will take several minutes.')) {
+                runCommand('supplier-pipeline');
+            }
+        }
+
+        function generateEmails() {
+            if (confirm('Generate supplier outreach emails? This requires qualified suppliers.')) {
+                runCommand('supplier-emails');
+            }
+        }
+
+        function startOutreach() {
+            if (confirm('Start automated email outreach? Make sure your email credentials are configured.')) {
+                runCommand('supplier-outreach start --campaign=supplier_emails/current/emails.json --max=10');
+            }
+        }
+
+        function exportData() {
+            runCommand('supplier-outreach export');
+        }
+
+        function refreshProducts() {
+            loadProducts();
+        }
+
+        // Outreach form handling
+        document.getElementById('outreach-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const campaign = document.getElementById('campaign-select').value;
+            const maxEmails = document.getElementById('max-emails').value;
+
+            if (!campaign) {
+                alert('Please select a campaign');
+                return;
+            }
+
+            if (confirm(`Send up to ${maxEmails} emails from campaign "${campaign}"?`)) {
+                runCommand(`supplier-outreach start --campaign=${campaign} --max=${maxEmails}`);
+            }
+        });
+
+        function dryRunOutreach() {
+            const campaign = document.getElementById('campaign-select').value;
+            if (!campaign) {
+                alert('Please select a campaign');
+                return;
+            }
+            runCommand(`supplier-outreach start --campaign=${campaign} --max=5 --dry-run`);
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+    </script>
+</body>
+</html>

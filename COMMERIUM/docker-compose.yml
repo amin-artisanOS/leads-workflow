@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  reacher:
+    image: reacherhq/backend:latest
+    container_name: reacher
+    ports:
+      - "8080:8080"
+    environment:
+      # Host configuration
+      - RCH__BACKEND__HOST=0.0.0.0
+      - RCH__BACKEND__PORT=8080
+      
+      # API Key - CHANGE THIS to a secure random string
+      - RCH__HEADER_SECRET=your_secure_api_key_here_change_me
+      
+      # Optional: Configure SMTP timeout (in seconds)
+      - RCH__SMTP_TIMEOUT=45
+      
+      # Optional: Configure connection timeout
+      - RCH__HTTP_TIMEOUT=30
+      
+    restart: unless-stopped
+    
+    # Optional: Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+# Notes:
+# 1. Replace 'your_secure_api_key_here_change_me' with a random string
+#    Generate one with: openssl rand -hex 32
+#
+# 2. To start: docker compose up -d
+# 3. To stop: docker compose down
+# 4. To view logs: docker logs reacher
+# 5. To restart: docker compose restart
+#
+# 6. Test with:
+#    curl -X POST http://localhost:8080/v0/check_email \
+#      -H "Content-Type: application/json" \
+#      -H "Authorization: your_secure_api_key_here_change_me" \
+#      -d '{"to_email": "test@gmail.com"}'

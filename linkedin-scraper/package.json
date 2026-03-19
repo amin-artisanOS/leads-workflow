@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "name": "linkedin-jobs-scraper",
+  "version": "1.0.0",
+  "description": "A LinkedIn jobs scraper built with Apify and Playwright",
+  "main": "scraper.js",
+  "scripts": {
+    "start": "node scraper.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "linkedin",
+    "jobs",
+    "scraper",
+    "apify",
+    "playwright"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apify": "^3.0.0",
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^17.2.2",
+    "playwright": "^1.55.1"
+  },
+  "devDependencies": {
+    "@apify/tsconfig": "^0.1.0",
+    "@types/node": "^18.0.0"
+  }
+}

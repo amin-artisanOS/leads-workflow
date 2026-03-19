@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String?
+  service      String     @default("smtp") // gmail, outlook, custom
+  smtpHost     String?
+  smtpPort     Int?
+  smtpUser     String?
+  smtpPass     String?
+  imapHost     String?
+  imapPort     Int?
+  imapUser     String?
+  imapPass     String?
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  campaigns    Campaign[]
+}
+
+model Campaign {
+  id           String     @id @default(cuid())
+  name         String
+  status       String     @default("draft") // draft, active, paused, completed
+  accountId    String
+  account      Account    @relation(fields: [accountId], references: [id])
+  steps        Step[]
+  leads        Lead[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Step {
+  id           String     @id @default(cuid())
+  order        Int
+  subject      String
+  body         String
+  delayDays    Int        @default(0)
+  campaignId   String
+  campaign     Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  outcomes     Outcome[]
+}
+
+model Lead {
+  id           String     @id @default(cuid())
+  email        String
+  firstName    String?
+  lastName     String?
+  companyName  String?
+  website      String?
+  status       String     @default("pending") // pending, active, completed, un-subscribed, bounced
+  campaignId   String
+  campaign     Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  outcomes     Outcome[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([email, campaignId])
+}
+
+model Outcome {
+  id           String     @id @default(cuid())
+  leadId       String
+  stepId       String
+  status       String     @default("pending") // pending, sent, failed, opened, clicked, replied
+  sentAt       DateTime?
+  openedAt     DateTime?
+  repliedAt    DateTime?
+  messageId    String?
+  error        String?
+  lead         Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  step         Step       @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model SystemLog {
+  id           String     @id @default(cuid())
+  level        String     @default("info")
+  message      String
+  meta         String?
+  createdAt    DateTime   @default(now())
+}
+
+model Waitlist {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String?
+  shopUrl      String?
+  status       String     @default("waiting") // waiting, invited, converted
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}

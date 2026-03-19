@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .example-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            margin-top: 1rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .stat:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            background: #e1e5e9;
+            border-radius: 10px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .country-card {
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: white;
+        }
+
+        .country-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .country-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .country-flag {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .country-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .country-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .countries-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏪 Supplier Finder</h1>
+            <p>Find suppliers for your ecommerce store</p>
+        </div>
+
+        <form id="supplier-form">
+            <div class="form-group">
+                <label for="product">What do you want to sell?</label>
+                <input
+                    type="text"
+                    id="product"
+                    placeholder="e.g., Azulejos de decoracion de hogar, Wireless Earbuds, Yoga Mats"
+                    required
+                >
+                <div class="example-text">
+                    Can be in any language - Spanish, English, Portuguese, etc.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select sourcing country:</label>
+                <div class="countries-grid">
+                    <div class="country-card" data-country="China">
+                        <div class="country-flag">🇨🇳</div>
+                        <div class="country-name">China</div>
+                        <div class="country-description">Electronics, toys, home goods</div>
+                    </div>
+                    <div class="country-card" data-country="Vietnam">
+                        <div class="country-flag">🇻🇳</div>
+                        <div class="country-name">Vietnam</div>
+                        <div class="country-description">Fashion, furniture, electronics</div>
+                    </div>
+                    <div class="country-card" data-country="India">
+                        <div class="country-flag">🇮🇳</div>
+                        <div class="country-name">India</div>
+                        <div class="country-description">Textiles, jewelry, spices</div>
+                    </div>
+                    <div class="country-card" data-country="Turkey">
+                        <div class="country-flag">🇹🇷</div>
+                        <div class="country-name">Turkey</div>
+                        <div class="country-description">Textiles, furniture, machinery</div>
+                    </div>
+                    <div class="country-card" data-country="Italy">
+                        <div class="country-flag">🇮🇹</div>
+                        <div class="country-name">Italy</div>
+                        <div class="country-description">Fashion, design, premium goods</div>
+                    </div>
+                    <div class="country-card" data-country="Spain">
+                        <div class="country-flag">🇪🇸</div>
+                        <div class="country-name">Spain</div>
+                        <div class="country-description">Fashion, wine, ceramics</div>
+                    </div>
+                    <div class="country-card" data-country="Brazil">
+                        <div class="country-flag">🇧🇷</div>
+                        <div class="country-name">Brazil</div>
+                        <div class="country-description">Coffee, furniture, cosmetics</div>
+                    </div>
+                    <div class="country-card" data-country="Mexico">
+                        <div class="country-flag">🇲🇽</div>
+                        <div class="country-name">Mexico</div>
+                        <div class="country-description">Electronics, automotive, textiles</div>
+                    </div>
+                </div>
+                <input type="hidden" id="country" name="country" required>
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">
+                🔍 Find Suppliers & Send Emails
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Finding suppliers and sending outreach emails...</p>
+            <p>This may take a few minutes</p>
+        </div>
+
+        <div class="results" id="results">
+            <h3 style="margin-bottom: 1rem; color: #333;">🎉 Campaign Started!</h3>
+            <div class="stat">
+                <span class="stat-label">Product:</span>
+                <span class="stat-value" id="result-product"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Country:</span>
+                <span class="stat-value" id="result-country"></span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Suppliers Found:</span>
+                <span class="stat-value" id="suppliers-found">Searching...</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Emails Found:</span>
+                <span class="stat-value" id="emails-found">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Emails Sent:</span>
+                <span class="stat-value" id="emails-sent">0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button class="btn" id="download-btn" style="display: none;" onclick="downloadCSV()">
+                    📥 Download Email List (CSV)
+                </button>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 1rem;">
+                Check your terminal for detailed progress. Emails will be sent automatically.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Country selection
+        document.querySelectorAll('.country-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards
+                document.querySelectorAll('.country-card').forEach(c => c.classList.remove('selected'));
+                // Add selected class to clicked card
+                this.classList.add('selected');
+                // Set hidden input value
+                document.getElementById('country').value = this.dataset.country;
+            });
+        });
+
+        // Form submission
+        document.getElementById('supplier-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const product = document.getElementById('product').value.trim();
+            const country = document.getElementById('country').value;
+
+            if (!product || !country) {
+                alert('Please enter a product and select a country');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('supplier-form').style.display = 'none';
+            document.getElementById('loading').classList.add('show');
+
+            // Update results
+            document.getElementById('result-product').textContent = product;
+            document.getElementById('result-country').textContent = country;
+
+            try {
+                // Send request to backend
+                console.log('Sending request:', { product, country });
+
+                const response = await fetch('/api/find-suppliers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        product: product,
+                        country: country
+                    })
+                });
+
+                console.log('Response status:', response.status);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response error:', errorText);
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+
+                const result = await response.json();
+
+                // Hide loading, show results
+                document.getElementById('loading').classList.remove('show');
+                document.getElementById('results').classList.add('show');
+
+                // Update progress
+                document.getElementById('suppliers-found').textContent = result.suppliersFound || 'Processing...';
+                document.getElementById('emails-found').textContent = result.emailsFound || '0';
+                document.getElementById('emails-sent').textContent = result.emailsSent || '0';
+
+                // Store CSV filename for download
+                if (result.csvFilename) {
+                    window.csvFilename = result.csvFilename;
+                    document.getElementById('download-btn').style.display = 'inline-block';
+                }
+
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(progressInterval);
+                    }
+                    document.getElementById('progress-fill').style.width = progress + '%';
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error starting supplier search. Check your terminal for details.');
+                document.getElementById('supplier-form').style.display = 'block';
+                document.getElementById('loading').classList.remove('show');
+            }
+        });
+
+        function downloadCSV() {
+            if (!window.csvFilename) {
+                alert('No CSV file available for download');
+                return;
+            }
+
+            // Create download link
+            const link = document.createElement('a');
+            link.href = `/api/download-csv/${window.csvFilename}`;
+            link.download = window.csvFilename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Check API configuration on page load
+        async function checkConfiguration() {
+            try {
+                const response = await fetch('/api/config-status');
+                const config = await response.json();
+
+                if (!config.configured) {
+                    const missing = Object.entries(config.status)
+                        .filter(([key, value]) => !value)
+                        .map(([key]) => key)
+                        .join(', ');
+
+                    setTimeout(() => {
+                        alert(`⚠️ API Configuration Required\\n\\nMissing or placeholder values for: ${missing}\\n\\nPlease update simple-config.json with your actual API keys before running searches.`);
+                    }, 1000);
+                }
+            } catch (error) {
+                console.log('Could not check configuration:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkConfiguration();
+        });
+    </script>
+</body>
+</html>

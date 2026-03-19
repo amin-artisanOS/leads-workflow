@@ -1,0 +1,57 @@
+[
+  {
+    "domain": "jmillsstudio.com",
+    "emails": [
+      "staff@jmillsstudio.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "melrosia.com",
+    "emails": [
+      "hello@melrosia.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "madisonwithlove.com",
+    "emails": [
+      "hello@madisonwithlove.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "estygrossman.com",
+    "emails": [
+      "atelieresty@gmail.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "mettlebyabby.com",
+    "emails": [
+      "abby@mettlebyabby.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "hanaijewelry.com",
+    "emails": [],
+    "status": "failed"
+  },
+  {
+    "domain": "shop.stilosissima.com",
+    "emails": [
+      "info@stilosissima.com",
+      "your@email.com"
+    ],
+    "status": "success"
+  },
+  {
+    "domain": "cadettejewelry.com",
+    "emails": [
+      "allison@cadettejewelry.com"
+    ],
+    "status": "success"
+  }
+]

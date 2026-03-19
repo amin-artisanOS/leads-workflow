@@ -1,0 +1,67 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js build output
+.next/
+out/
+/coverage
+
+# Vercel
+.vercel/
+.vercelignore
+
+# Build outputs
+build/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environmental variables & Sensitive Configs
+.env*
+*.local
+icp-config.json
+simple-config.json
+supplier-config.json
+iuh-content-and-ecom-systems-*.json
+
+# Service accounts / keys
+*.pem
+*.key
+
+# Data and logs
+apify_runs/
+apollo_runs/
+job_postings/
+scraped_sites/
+apollo_enriched/
+apollo_linkedin_runs/
+event_registry_runs/
+historical_leads/
+hospitality_construction_runs/
+lead_lists/
+linkedin_jobs_to_leads_runs/
+news_based_leads_runs/
+peaky_leads_runs/
+verifiedemails/
+*.csv
+*.xlsx
+/COMPRESSED PDFs/
+/PDF TO COMPRESS/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*

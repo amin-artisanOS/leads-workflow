@@ -1,0 +1,914 @@
+0:00
+Bootstrapping SAS companies. This video is going to show you how to do it. Bootstrapping is going and starting a
+0:05
+SAS software or tech company without raising any money and getting it to cash flow as fast as possible and also
+0:11
+building it as cheap as possible so that you get to the point where you're making money and you can keep all the equity for yourself and then use the money that
+0:17
+you're making to build the company larger or just take the money and use it to buy exotic tigers, whatever you want
+0:22
+to do. I can teach you how to do this because in my 15 years of building SAS companies, I have bootstrapped every single one of them. I've built several
+0:28
+to hundred thousands of dollars per year. I've built a few to millions and millions of dollars per year. And I built one to $40 million ARR and a
+0:35
+valuation of north of $200 million, which is hyros. All of these bootstrapped me keeping the entire
+0:41
+equity of all of them and cash flowing them all extremely quickly. I've never been in a point where I had to take
+0:46
+loans or raise any money to build my SAS companies. Here's how I did it and how you can do it, too. So when it comes to
+0:51
+bootstrapping, the most important thing is that we get cash flow positive as soon as possible and build as cheaply as
+0:57
+possible. In fact, it's possible to get cash flow positive before we even start building. Here is how what we want to do
+1:04
+when we start off this company, assuming that we have absolutely no money. We're going to talk about what to do if you
+1:09
+have a little bit of money right now and you just don't want to blow it all or you don't want to raise money and you want to use that money to start the
+1:15
+software company. So, the way that you're going to go and do this originally, if you're starting off without any cash flow, is we're going to
+1:21
+be a agency or a service company that has a tool. And so, what does this mean?
+1:28
+What we want to do is we want to build our SAS, but we want to run the SAS for the user. We want to put the user on the
+1:35
+SAS and use the SAS almost as like a tool for our agency. So, for example, if we're building an app for restaurants or
+1:42
+we're building an app for organic dentists, we're always going to use that example on this channel. What we're
+1:47
+going to do is we're going to get them on board and offer them the results of the app or service and then we're just going to put them on the app ourselves.
+1:54
+Why do we want to do this? And I will make this make more sense and show you how we turn this into an app or SAS
+2:00
+company later on. It's because we want to do two things. We want to be able to sell onetoone to customers. We want to
+2:07
+be able to sell high ticket upfront which is where we so we charge a lot of money upfront
+2:13
+and we want to guarantee results.
+2:19
+So let me explain these all from the get-go and how this ties into bootstrapping. So when we start this
+2:25
+off, we don't want to do what most SAS companies do. That's where you build a product before you have any customers. you spend several hundred,000, $30,000,
+2:32
+$50,000, and we go and build an app before we have any customers whatsoever. In this video, I'm going to show you to
+2:37
+build apps super duper cheaply as well. You don't want to build or spend several hundred,000 building your first SAS
+2:42
+company. If you've already built a few SAS companies, there's really no problem with that if you understand what you're doing. But when we start our company, we
+2:49
+want to sell one one because this is going to allow us to virtually have the highest ratio of closes and sell at the
+2:56
+highest cash flow positive levels or sell high ticket. Basically, sell something that's very expensive so we
+3:03
+have cash flow coming in first. And the reason why we want to sell as an agency slashservice is because when you're
+3:10
+calling up potential businesses and offering them results or you're hitting up businesses or you're DMing people,
+3:16
+one, your SAS product is probably not going to work well enough to work as a SAS product. What a SAS product is is
+3:22
+where a person signs up and you don't really have to talk to them or your customer support talks to them and sets
+3:27
+them up and then they run basically on autopilot from the SAS and you rebuild them endlessly to the end of time if
+3:33
+your product works. That's what a SAS is. When you first build your thing, it's probably going to be janky. It's
+3:38
+not going to work very well. It's going to be very, very hard to use. It's probably going to break all the time, and it's not going to have features or
+3:44
+things that the the customer needs. They're not going to know to use it. It's not going to be intuitive. It's just an absolutely diaper dumpster fire
+3:50
+monster [ __ ] show. It's just not going to work. And so, you want to be able to plug them in and give them the results
+3:56
+from the software. On top of that, you want to focus on what is the main thing the customer is signing up for? Results.
+4:03
+It doesn't matter if there's a software or not. The main thing is they sign up for the results and they keep paying for it. So, it's actually possible to take
+4:10
+your software idea and let's imagine it's not a software yet and you manually do all the things that your software
+4:16
+does. You manually go and for example, if we were doing something that
+4:21
+increases the appointments for this organic dentist, say we were building them an AI agent SAS and we're building something that increases the phone calls
+4:27
+for dental offices. Well, we don't want to go and build that entire thing before we know people actually are going to buy
+4:33
+it and they're actually going to stay on and keep paying us for it. So, we could easily do is we could use a platform like N8N or Google Gemini's agents or we
+4:41
+could basically just actually go and automate everything with a spreadsheet. Just imagine anything that a software
+4:47
+company does and imagine you doing it manually whether it's following up with leads, I don't know. just try to do it
+4:53
+manually or use existing workflows and frameworks or even just vibe code something just onetoone for the customer
+5:00
+to go and get them the result. And again, why is this okay? You might be thinking this doesn't even sound like
+5:05
+software. It's because what we're going to do first off is make sure that we have cash flow coming in and that the customer is willing to pay for the
+5:10
+result and it keeps customers. We don't have to go and have thousands of customers to do this. We can actually do
+5:16
+this one to one for a customer just like an agency. And then what we do once they are paying us money is we take that
+5:22
+money and we slowly convert it into an app that we introduce and start selling to customers. And as we go and start
+5:28
+selling the app more and more, we slowly improve the app, the onboarding experience to the point where a customer
+5:34
+can sign up without talking to us onetoone and fully set up or speaks with customer success agents and they go
+5:39
+through a a deeper setup process maybe with your developer and stuff. At the beginning, you have no team, you have no
+5:45
+customer support, the product's not very good and it's very janky. Thus, we don't want to sell that. That's a bad customer
+5:51
+experience. We want to sell a onetoone white glove agency- like experience where we go and just do it for the
+5:56
+customer. So, this is why we want to be able to sell it one to one because when you sell one to one, you're going to
+6:02
+have the highest level of sales and you're going to be able to customize your offer and what you're doing and listen to the customer. When we're
+6:08
+selling one to one and we're selling something like this, it allows us to sell something high ticket upfront. So, why does this matter? So when we
+6:14
+originally were building Hyros, we sold it one to one to customers and we sold it annually upfront. You couldn't go and
+6:21
+sign up monthtomonth. Now why did we do this and why is this awesome and why is
+6:26
+this basically the best way to build a a bootstrap company? So when you are selling high ticket onetoone upfront,
+6:32
+here's a few things you're able to do. First, you're able to offer the whole done for you experience white glove and
+6:37
+you're basically selling a service or an agency. You're not selling a software. So, this allows you to charge basically
+6:43
+the max price if your software is $300 per month, but it came with a full donefor you setup team that basically
+6:48
+guarantees results and guarantees success for what your software is going to do for the business. You were able to sell it at a year up front, no problem.
+6:56
+So, what we did at Hyros originally, and I didn't need to cash flow a business. I had lots of money coming in for my other
+7:01
+businesses. Uh, but if I had to go back and start a business where I didn't have lots of money coming in, I would do
+7:07
+this. A lot of my other businesses were SAS companies at the time. I built a lot of micro mini sasses which we will talk
+7:13
+about in this video but that required me to spend about 20 to $30,000 upfront and
+7:18
+I don't think people really want to do this in this video and I don't think that's the best way to go and do this because they they take time to build.
+7:26
+You're not making a lot of money up front especially if you don't understand how to grow and distribute. It's just a lot better to do it this way. So when we
+7:33
+were building Hyros, what I do is I would go and hit up info companies and
+7:38
+companies that had call funnels. Okay? And so what Hyros does is essentially it tracks people's call funnels. It tracks
+7:44
+their info marketing webinars. Now it tracks Shopy. It tracks basically anything right now. But in the beginning
+7:50
+what we're very good at is when people run ads on Facebook, what they can't see is usually the conversions, the calls,
+7:56
+the sales coming in with any level of accuracy, especially if they have multiple traffic sources coming in. It
+8:02
+just doesn't track these things very well. It especially doesn't track long-term revenue or closes coming from
+8:07
+calls or repeat customers at Shopify stores. Anyways, when you plug this tracking into people's ads, whether
+8:13
+they're a SAS business, a Shopify store, an info business, they're going to see about a 15% increase in their ad
+8:18
+revenue, almost guaranteed. That's actually why we have a guarantee at Hyros. If you don't see that, you don't pay for it. And we've been in business
+8:25
+for almost half a decade now, thousands and thousands of customers across tons of famous brands. So, it it it just
+8:30
+straight up works. Now, because we had that guarantee, what we'd offer to do for these businesses is let's say your
+8:36
+business is spending 500,000 a month on ads. If we're able to increase that by 10 15%, you're making 50 60,000 a month
+8:43
+more easy. Okay? We can easily build 2,000 3,000 a month for that. No problem. Especially if you go down the
+8:49
+the scale, maybe a business making 100,000 a month, 50,000 a month. We're able to bill 350, $500 a month from
+8:56
+that. And if we can bill annually from that, that allows us to bill 3,500, $5,000, $10,000 upfront for those
+9:03
+packages that we just talked about. So what we do is I would hit up these businesses and they had this giant problem. I said, "Hey, we'll fix this
+9:10
+for you. We'll build the tracking for you, white glove. You hop on for free. We'll show you that it works. And then
+9:15
+once it's in growing your ads, you start paying for it." Now, we could also, if we were really strapped for cash, just have them pay for it up front and just
+9:21
+guarantee it. Now, you might say, "Okay, well, with that guarantee, what if it doesn't works?" Well, you really shouldn't be selling something that
+9:27
+shouldn't that doesn't work. If you if you're trying to sell stuff that doesn't consistently work, I cannot help you
+9:32
+here because your product sucks ass. So, my first tip for you would not be selling ass suckage. If you're just
+9:37
+connecting a pipe straight to someone's [ __ ] and trying to feed it in someone's mouth and get them to pay pay you for it, you're probably that that's
+9:43
+probably not the best business model. All right, straight up. Stop human centipede the stuff and actually make a good product. Okay, so that that's
+9:49
+addressed. Now, when we're selling it one to one like this and we guarantee that problem and we guarantee to do it
+9:55
+for them. You you might have noticed on that high-risisk pitch right there, the software really wasn't part of the pitch. I did have a software at the
+10:01
+time. I did say we are a software company. But there's two things I could have done at the time. One, if I didn't
+10:07
+want to build the entire software app like we did with Hyros, what I could have done is I could have gone and built the tracking, putting a bunch of apps
+10:13
+and stuff together and built it custom one to one for each customer. Okay? I could have done that right off the bat and simulated my software and simulated
+10:20
+the results and experience. And when the person said, "Wow, I really like this." We could have then slowly started building the app with the money that was
+10:26
+coming in from the service business. You see how that works? But anyways, we sold it basically as a service business. We told them we'd bring them on for free.
+10:32
+We get them signed up and I think that's the best way to sell your initial SAS product or your service because if you can guarantee the result, it doesn't
+10:39
+matter if they pay for it initially or not, they're eventually going to be paying for it because they're going to want to keep that result. It it doesn't
+10:45
+matter. So, for example, at Hyros Air, which is our AR remarketing agent, you slap it on a Shopify store, you slap it
+10:50
+on a SAS business, they get 3 to 5% more calls or revenue coming into their business. The end. Like, that's it. And
+10:56
+they don't have to pay for it until they see that coming in. And once the business, if they're doing 500,000, 100,000 a month, they're making 5,000
+11:02
+50,000 extra a month in calls or revenue coming in. They're going to keep paying an extra $500 to $1,000 per month for
+11:08
+it. It does it doesn't matter. Okay? So, it doesn't matter if we build them up front. Still, if you have absolutely wild cash flow issues and you don't have
+11:15
+any job or anything coming in, then yeah, of course, that's an option right there. But again, backing up to that. So, at Hyris, we offered this one to one
+11:21
+and this allowed us to not only sell it at a subscription, but we sold it as an annual subscription up front, saying,
+11:27
+"Hey, look, if we're going to have our team or our people come and set this up for you and walked us through and guarantee the results and make sure it
+11:33
+works, we need to bill you a year up front so we can cover all the cost and make sure that you're committed to this." Does that sound fair? If it
+11:38
+doesn't work, we will give you all the money back. Okay? or we do that free offer. Those were the two ways to do this. You can't do that if you're not
+11:44
+selling oneonone. And what we did is we really customized each pitch to the client. Okay, you have an info business.
+11:50
+You're tracking webinars. You're tracking sales calls. This is how we're going to track it. Can you see the results that you need right now in your
+11:55
+ad tracking? No, you cannot. We're going to fix that. This is going to make you this much more. We're going to move forward with this. We're going to focus
+12:01
+on your exact problem. That allows us to sell oneonone. Sell upfront. Sell done for you. Sell high ticket. Now, why does
+12:08
+it matter if it's high ticket? Okay, so say I need $100,000 a month to uh build my SAS company. I only have to close
+12:15
+like 10 clients. So why does this high ticket have to do with bootstrapping? Well, say I needed like 30,000 a month
+12:21
+to to start my SAS company. Say I need 50,000 a month. Reaching these numbers is really hard. If we're selling a $100
+12:27
+a month subscription, we have to get a ton of customers. We can't interact with all the customers. We can't guarantee their results. However, if we're selling
+12:34
+one to one high ticket upfront annually upfront, okay, if I'm selling a $5,000
+12:39
+product, I need to get 10 customers a month to get the 50,000 a month. That's really not that hard. In fact, I could
+12:45
+get those initial I could get initial 20 customers and go and make $100,000 and
+12:51
+then use that to actually build the SAS app. If I'm doing that service business kind of model right there, instantly I
+12:56
+have cash flow coming in. When we were building Hyris, one of the big keys to is we build annually upfront. There was
+13:01
+no way to get it without paying upfront. And we were able to get people in one cuz it worked and it was a giant problem. And this is why you need to
+13:08
+make sure you have product market fit. Watch my product market fit video that talks about how to find problems big enough that you can actually sell like
+13:14
+this. If you're selling something that's a tiny little problem like teaching someone's dog to do a handstand, that's
+13:19
+not a problem they're going to pay you $10,000 to solve. No one's going to pay you for an app that organizes a
+13:25
+refrigerator. They're not going to pay you 10 grand for that. It needs to be a problem that makes them money and fixes breakage in their business. That's why
+13:30
+you need to focus on achieving product market fit in the video that I've linked below. It will also show at the end of this video. You don't need to watch it
+13:36
+right now. You do need to watch it. Anyways, with this, we're selling 3500 5,000 $10,000 packages up front, mostly
+13:43
+doing it for the customer. We plugged them all in. And so, this allowed us to get cash flow positive in the first
+13:48
+month. And Hyros wasn't a cheap software to build. If we were doing this with a smaller software, I would have not built the software first or if I had cash flow
+13:55
+issues, I wouldn't have built all the software first at all. I would have vibe coded something that allows us to plug
+14:00
+in tracking for the customer and kind of onetoone build an app for each customer and then I would have conglomerated all
+14:07
+those apps all together into one app that was high and then start onboarding people onto the app. That's what I would
+14:12
+have done. Anyways, those are the two routes you can go. If you have money, you should go with the route I just talked about where you kind of build the
+14:18
+app first. If you don't have money, do the service-based business first. Now, finally, why do we want to sell like
+14:23
+this? It's because we can guarantee results because we're doing it for the customer. Why is it so important that you guarantee results when you first
+14:30
+start your SAS? Because you need to be able to keep the customers [ __ ] money. You can't be cash flow positive
+14:36
+if no one's letting you keep their [ __ ] money or they're not giving you lots of it. So when we offer a guarantee, hey, it's 5,000 upfront, but
+14:43
+if it doesn't work, if it doesn't work, you don't have to pay for it. And we're we're going to make it work because we
+14:48
+guarantee it works because we're going to [ __ ] do it for them. Okay? And so when we have that, we can ensure that
+14:53
+the customer is going to be happy and be able to keep their money. all these things right here. You wrap this all together, it makes it much much much
+14:59
+easier to get cash flow positive and run ads to your business because each call
+15:04
+that comes in isn't an extra $100, $200 a month coming in. It's an extra 5,000, 10,000 a month or 10,000 a year coming
+15:11
+in instantly paid upfront. So, this really starts to stack in a way that's in your favor because let's say you only
+15:17
+get 10 5k customers a month. Totally doable. All right? totally doable once
+15:23
+you once you're moving this and you have a service that works. Hell, I'll even say you're getting five. Still totally doable. So, this gets you 25,000
+15:32
+a month coming in immediately out the gates. And so, you just get five customers every month. And in your first
+15:37
+year of doing this, say you're getting five customer every single month, you're going to have 250k in annual reoccurring
+15:43
+income that's going to be stacking up the next year. And so, this this model right here, one, it can actually make
+15:49
+you rich. We still sell annually upfront. There's a reason why you see a lot of SAS companies do these big contracts and deals, okay? Uh it's it's
+15:56
+this model right here. It it makes everything so much easier when you're billing hugely upfront. This is what
+16:01
+HubSpot did to originally grow. Their numbers were not working very well because they were selling like $50
+16:07
+packages a month or $50 a month packages. But when they started going aggressively sales call oriented and
+16:12
+selling a year up front, that's when HubSpot just went. All right, so understand that. And this
+16:19
+just makes everything so much easier on the cash flow because then you actually have this money coming in to pay staff, pay yourself a little bit and cover
+16:25
+development costs and everything else that's coming in and it stacks on itself every single year. So even if you're not really growing while you do this, well
+16:31
+the next year you'll have 500k in MR or ARR coming in. I'm going to get my AMRs and AR statements confused many many
+16:38
+times in this video. So let's talk about who we're actually going to sell to. What we want to sell to is either
+16:44
+enterprise if you're really clever. This is the best way to go by far, but this is not accessible to most people because
+16:50
+they think it's intimidating. I actually like selling in enterprise. This is where the person is going to be giving
+16:55
+you 10, 20, $50,000 upfront. Now, is that the most accessible to a beginner?
+17:00
+No. But let's say you're not a beginner and you're pretty good at selling and you're already good at building businesses. Most people that enter SAS already have had some type of business
+17:06
+experience. A lot of people don't just be like, "Hey, let's start a [ __ ] software company out of nowhere." So,
+17:12
+I'm gonna assume there's a lot of people in this video that have already ran businesses at a pretty high level. So, why do you want to sell enterprise? Find
+17:18
+businesses that are making $100 million per year and find something in that business that's breaking, that's losing
+17:24
+them a million dollars per year or could make them a million dollars per year. Then fix it with a custom software
+17:29
+solution or a custom development solution that's not that's not a service that everybody else is selling. Everybody is calling big SAS companies
+17:37
+like Lovable or big hotel brands like the Four Seasons or giant info brands
+17:44
+like [ __ ] or Tony Robbins. Everybody's calling them trying to sell them agency ad service and everything. Very few
+17:49
+people are calling them and offering custom software solutions to fix weird little problems in their business and their logistics and their uh tracking
+17:55
+and stuff that that that they just don't have solved at all. So when you sell to these businesses, it's actually very
+18:01
+easy to sell because you're selling something that is onetoone to them that nobody else is selling. That's the beauty of SAS. You can build a product
+18:07
+based around a specific problem in their business that isn't solved, not a problem in their business that's solved by a thousand other businesses. So
+18:13
+businesses that make over $100 million per year, they'll easily pay you 50k upfront if you solve them a problem that
+18:19
+makes them an extra 250k a month. Okay? And this will cover their entire year. Then you can just get two of them and
+18:25
+you can just focus on that. For example, Harvey is an AI agent app for law firms.
+18:31
+And the first thing they went is they just started targeting the biggest law firms in America out the gate. And they
+18:37
+just showed them that they could fix the problem with AI agents. And Harvey makes like 150 million a month. I think right
+18:42
+now they're valued at like $7 billion. I'm not sure if they bootstrapped or not, but they got profitable very fast.
+18:49
+That said, it's a perfect example regardless of just going straight to the enterprise level. Now, with the AI agent
+18:54
+software that they built, they could have easily for the first few firms just built something custom. It's not
+19:00
+particularly hard to build agents and train an LLM and do everything from scratch in your house. Like, you can do
+19:05
+these things. And will that work at scale? Absolutely [ __ ] not. Will it work for one customer? Yeah. And then
+19:10
+you say, "Okay, what worked with this customer? What did they like? What did they pay for? How do we turn this into a software that is turnkey?" Because what
+19:17
+a software is again is let's imagine you build this service and it's a onetoone
+19:22
+service. What it is is it's simply automating this service so it can be served to hundreds of people. That's it.
+19:28
+Okay. So you build the service at first and you find a way to automate the service with software where the person even down to the person signing up and
+19:34
+doing it themselves. That's all software is. It's not building a a software company just for the sake of software.
+19:41
+It's turning a service, software as a service where the name comes from, and something you can sell hundreds and
+19:46
+hundreds of times effortlessly. There's no reason why you can't manually do the service the first 10 times. Okay? So,
+19:52
+that's why you want to go enterprise first if you can. Next, if you if you're very new and you're just really enter
+19:59
+intimidated by that, what you want to do is just go high ticket to businesses that may have that make money. Okay? We
+20:06
+don't want to be building some low-level software. We don't want to be building a clickfunnels. We don't want to be
+20:11
+building a go high level. I'm not saying these are low-level softwares. I'm saying they sell in mass. Okay. Day one
+20:17
+strategy of these things was they sold in mass. If you look at something like Zapier that was Bootstrap, that's a
+20:22
+really hard example right here because people aren't Zapier couldn't go and charge uh I don't know $10,000 upfront
+20:29
+for their app. How Zapier originally started is they just hit up people and they said, "Hey, I think this connection thing would be good. You want us to do
+20:35
+this for your business?" They did it. They weren't charging very much and they were paying themselves extremely little.
+20:41
+It was still bootstrap, but they were living off their savings doing this. And they eventually got enough customers doing that and enough people interested
+20:46
+in it that they could build the app and go from there. Okay? They didn't have to go and borrow money to do that. Again, that's not optimal because they're not
+20:53
+cash flowing super hard up front. So, we want to sell the businesses that already have money coming in. Dentists, info
+20:58
+businesses, agencies, construction companies, it doesn't really matter. find breakage and then try and sell them
+21:05
+something that's $5,000 upfront. Try to get in this price range for an annual contract. Again, the $50,000 enterprise
+21:12
+contract, $100,000, $200,000 enterprise contract, way better. Okay? Some of like if you look at the best SAS companies
+21:18
+right now, all they did is they just went enterprise from the get-go and they just sold like $200,000 contracts from
+21:23
+the get. All you have to do is get five customers and your SAS is at a million dollar ARR. Now, easier said than done.
+21:29
+You get it, though. This is what you want to do, though. This is why you want to go high ticket and this is why you want to sell one to one because if you're not selling one to one you can't
+21:35
+do this. Now a few things you need to consider if you're bootstrapping SAS right now. This is not 2010
+21:42
+a CEO a product focused and sales focused CEO which is what I am. Okay. I
+21:49
+don't code. I know how to code. I can code if I have to. But if your company
+21:56
+is growing and it's at a high level, specifically if you already have money when you're starting your company and
+22:01
+you just you just don't want to raise money, you can fund the company yourself like I do with my companies. It's really
+22:07
+it's good to know code and it's good to know how to development works. It's really not in your advantage to be a
+22:14
+master coder because as a CEO, if you're spending 10 hours a day coding, you're not spending 10 hours a day being the
+22:20
+CEO. Okay? So I think a product and sale focused CEO and a smart CTO just as a
+22:27
+twoman team are fully capable of building a SAS company from scratch right now with vibe coding with AI. I'm
+22:34
+not saying you can build a full-fledged software with vibe coding. I'm not suggesting that at all. I am saying that
+22:40
+a chief technical officer armed with AI and armed with this current ability to build software is fully capable of
+22:46
+building a miniature SAS app. not something where people sign up as completely turnkey a a sales force out
+22:52
+of the box. I'm saying something that you could sell oneonone and customize for customers. That's all. Okay? And so
+22:58
+I think all you need to do is find yourself a CTO and if he's willing to work off of equity at the start, well,
+23:05
+you guys are good to go. Like, hey, we're not going to make any money up front, but we're going to keep all our equity and not raise money. You two can
+23:10
+just get a massive amount of damage right here. As a product CEO, it is so easy to build websites now with AI. It's
+23:15
+so easy to build promotional materials. It is so easy to start and make videos and sell and it's so and you can just
+23:21
+literally DM people if your product is specific enough. You find companies that have breakage like I talk about in my
+23:27
+product video product market fit video and you just message them and sell. If you are not a coding person, you're not
+23:34
+a developer, you need to be just super [ __ ] good at marketing and selling the end. Okay? And then you'll evolve
+23:39
+into product design and move from there. But this is where you need to be at. These are the skills you need to invest in. My skills are all in sales and
+23:45
+product design. Then you find a CTO. Now, what you could also do if you want to be a real whiz kid is just learn the
+23:51
+CTO skills and learn to develop yourself. There is nothing, especially if you're young, there's no downside to learning how to code and then learning
+23:57
+how to code with AI. And the reason why you want to learn both is because when you're coding uh when you're coding with
+24:03
+AI, eventually you're going to hit bugs and you're going to hit things that the AI can't do and then you're just completely screwed. And then when the
+24:09
+database gets big enough, then you're still going to be completely screwed because AI is just not very good at large context building. Anyways, with AI
+24:16
+though, with with coding experience, you can build super fast and build incredibly fast and fix the problems you
+24:21
+run into with AI. So, you could literally do both of these things. And if you go and learn code, the worst thing that's going to happen if you get
+24:27
+good at it is you can go and get a 30 to $50,000 per month job just doing code. That's like the worst thing. So, it's
+24:34
+it's like giving yourself the best opportunity, period. And especially if you're learning in code in reference to
+24:40
+building AI agents and training LLMs right now, you're golden. Okay, even if you [ __ ] up this entire business thing,
+24:46
+you're going to have a good job somewhere. I guarantee it. Then you can also learn product and sales. I really
+24:52
+think this combination right here, if you're brand new and just getting started, works. And if you already have some cash, you don't have to give a CTO
+24:59
+tons of equity. You can just pay them, okay? You still want to give them a little bit of equity, you know, 2 3% of
+25:04
+the company, okay? Because they're going to be leading and building the team and everything. But this works great. This is this is a fantastic two founder
+25:11
+setup. Works great for bootstrapping. you move on to there and then you have your CTO go and start hiring the developers and everything else you're
+25:17
+going to need after that. You hire the sales teams and the sales teams. This works great. This works great. And
+25:22
+there's a ton of dudes out there that can code and develop but can't sell or design products for [ __ ] that would love
+25:28
+to be CTO and love to start a company. So, you're still golden right there. Now, here's another bonus tip I'm going
+25:33
+to give you before we actually move to growing these companies. So, I talked a little bit earlier before about mini
+25:39
+SAS. So when I first got started, I didn't build like a hyros or a largecale SAS company. What I did is I built lots
+25:45
+of miniature SASes uh for various reasons. If I could go and point out the benefit to this right now, it's because
+25:51
+many SASS are small softwares where the goal is to make 30 50,000 a month profit. Not things you're going to scale
+25:57
+to the moon, but things that are going to give you good cash flow. Uh these are very easy to build and very simple to
+26:02
+build. And it's and what you need to understand is that as you get up the the revenue tree, let's say we got 30k a
+26:09
+month right here. Let's say we got a million a month right here. Let's say we got 5 million a month right here. The profit and the ability to generate
+26:15
+profit gets harder and harder because more serious people enter the space who don't care about profit. And the best
+26:20
+way to actually make money in SAS is to grow your ARR while keeping customers and then make money off the equity. So,
+26:26
+for example, if you have a $1 million a month SAS, and it has a 1% churn rate,
+26:32
+very low customer churn, and you're growing at 50% per year, you're going to be at a 10 to $50 million valuation.
+26:39
+Like crazy. Depends on the niche and everything you're in, but you're going to have crazy valuation numbers, okay?
+26:45
+And that's just one mill a year annually, not one mill a month or anything like that. You're going to have crazy valuation based on that. So the
+26:51
+real way to make money is to get something to a million dollars per year with very low churn in a hot niche and
+26:56
+you're going to have a crazy valuation off that and you can borrow money against this valuation or you could like even sell a little bit of the company.
+27:02
+Say it's worth 20 million. Okay, you need you need cash flow to pay for the rest of your life. You sell 5% of the company for a million dollars. That's
+27:08
+how people make money in SAS and they're not focused on cash flowing. So as you get higher up the revenue tree, you run
+27:16
+into that issue where you're going to be dealing with people that don't care about cash flow. you care about cash flow and paying for your life right now.
+27:22
+So, at these levels right here, you really don't have those type of of savages and you're going to be able to
+27:27
+go and draw profit from your company without having to uh worry about being out competed. So, when you're first
+27:34
+building this, it's really almost better to build little miniature software companies. Now, I built these things because I was just a greedy little
+27:39
+goblin and also didn't understand how to build big things or think like this. I wish I had earlier on. I'd be so much
+27:46
+richer. So, I built a lot of these these little micro SASes at 30 to 50k a month,
+27:51
+mostly profit, like 80% profit margins. And I built like six of these things and
+27:56
+I was generating like 400k a month from these. So, these were all bootstrap little dinky things, too. And this was
+28:02
+really cool because then I could cash flow this into Hyros, which was the big swing, and then use that to fund Hyros.
+28:09
+Now, if I had to go back and build Hyro from scratch, I'd use the method I just showed you. And with these companies
+28:15
+right here, I would have tried to actually turn one into a bigger company. Uh it was all just a giant mess. This is
+28:21
+not the most opportune way to build things. I'm saying if you're getting started, think about your goals. My goal is to become a billionaire. I want to
+28:26
+get high to $10 million per month. I want to be at $100 million a year. Okay, that's that's my goal. That might not be
+28:32
+your goal. Your goal might just be to pay for your house kids and hang and and I don't know, hang out and go fishing. I
+28:38
+don't know. So you need to think about where what you actually want to build. And there's nothing wrong with when
+28:44
+you're getting started building microsasses first. They just they're not going to be the next Facebook, but they're going to make you money. And
+28:50
+then once you get comfortable building these smaller softwares that are in my opinion, I think the best way to build
+28:55
+is the one to one client software. So let's say you just get 30 clients on the software at $1,000 per month. Something
+29:00
+like that. I think that's way better to go than getting 1,000 clients at $30 per
+29:06
+month, which is what a lot of people try to do. This is what I actually do with my first softwares. That's really shitty
+29:11
+because these people when you're when you're doing many softwares and you have a lot of customers, one the software if
+29:16
+you're not doing it for and managing for the customer, it's just not good enough to keep customers. So even if you get the 30,000 a month, you're constantly
+29:22
+going to be losing 10% of your user base every single month. It's just not going to work. Uh you don't have the cash flow
+29:27
+anything to build something really good that's completely turnkey. Whereas, if you have 30 $1,000 a month customers,
+29:33
+you can work with each one, know every single me each one of them, build custom things in the software for them. It just
+29:39
+works so much better that way. And you can kind of clone that out and you could actually umbrella all the SASes
+29:44
+together. This is going to get you really good cash flow that if you want to go to the next levels to build the big thing, you can then cash flow it
+29:51
+from there. That's what I did in a little bit more wing dingy of a way. If I could go back in time, this is what I
+29:57
+would do. I would go and start the mini SASes but not with mass customer focuses more onetoone get 30 1,000 uh a month
+30:05
+clients on there or more something like that and then what I would do is use that the cash flow my main business and
+30:11
+I and the reason why you want to build multiple of these things is because like I talked about once we get to the point
+30:17
+where a business is making 200,000 a month you start running to the point where you actually need to start really investing in the business to keep the
+30:23
+customers and because it's going to become more loose touch you're not going to be interacting with the customers as much. You really have to invest a lot in
+30:31
+the product because you can't control the experience like you could if you have the lower customers. So what you could do which is better is you build a
+30:38
+lot of these smaller ones where you don't have to run into these companies that aren't focused on profit. You can work with the customers more onetoone
+30:44
+and keep them. And you can actually build several of these. So say instead of going and building one giant company, you build three to four of these things
+30:49
+all at 80% profit margins. This is how you keep incredibly high cash flow while
+30:55
+scaling your revenue. If you get one of these at 250,000 a month, I guarantee you someone's going to say that business
+31:00
+is making 250,000 a month and they're taking 80% profit margins. We'll just make 20% profit margins. Get to 250k a
+31:06
+month. Our business will be worth many million dollars and then we flip the business or take the money from the equity. You're going to run into that
+31:12
+situation every single time because a lot of people start thinking in terms of equity as the money starts getting serious. So, for example, like at Hyros,
+31:19
+just to put this really in perspective, at 40 mil ARR, what I could do is I
+31:24
+could easily get it down to like 80% profit margin to just pocket $30 million a year just right in my pocket. If I do
+31:30
+that though, my software is not going to be very good. Okay? It's not going to be investing. And someone else is be like,
+31:36
+"Hey, we can get ours to 40 mil AR and then put 40 mil ARR back into it to get
+31:42
+to 80 mil ARR." And at this rate right here, our company at a 8x valuation
+31:47
+would be worth $640 million. And then if we want to buy a a golden yacht, we can
+31:53
+just borrow, you know, $50 million from that. And that's how we'll make the money right there. Okay. And so,
+32:00
+frankly, Hyus is very profitable right now, and it's kind of against my will. We just we just are a very efficient,
+32:05
+lean company. I build it kind of like I want to build it kind of like Valve, which is just massively profitable per
+32:10
+employee. That said, the easiest way for me to make a hund00 million isn't by
+32:16
+going and cash flowing. Let's say I I got this to 20 mill a year. This is just a quick little cash flow lesson right
+32:22
+here. 20 mil a year at even before taxes. If I wanted to make a hund00 million, I would have to go and do this
+32:29
+for five years at this rate. Yeah. No, no, no, no. So, at $40 million
+32:34
+valuation right here, even on the lowest end, Hyris is valued at about $200 million. So, if I want to go and make
+32:41
+another $200 million from this, what an easier way for me to make another hundred million would just be to go and
+32:48
+take hyros from 40 to 60 as fast as possible. And that's going to add another 100 million, 150 million to my
+32:55
+net worth easily. And the easiest way for me to make another 100, 200, 300 million is to take it from 60 to 80. And
+33:01
+so, like, there's no real reason for me to be drawing cash from this right here because this takes forever to make 100
+33:07
+million. I have to wait 5 years. I could just go in one year, increase hyros by $20 million by investing all the money
+33:12
+back into it and increase my net worth by $100 million and then borrow equity, take it public, all those things. So the
+33:17
+fastest way for me to make a lot of money isn't actually take money from the company. It's to grow the company. That's why SAS is beautiful because once
+33:23
+you get to the point where you're growing the company, the bigger it gets, the higher the multiple on the business, especially with low churn. So if you
+33:30
+take a business and you're at 10 mil ARR, your your multiples are going to be like 5 6x tops. But if you take a
+33:36
+business to 100 mil ARR with low churn and you do it fairly quickly, your multiples are going to be 1015. And so
+33:42
+at 100 million, you're at about a $ 1.5 billion valuation. This is where the sauce is at. So you
+33:49
+get make more money growing faster and keeping your customers than you do actually taking money out of the business. This doesn't always apply to
+33:55
+other business models. This is why SAS is one of the best business models out there. You do this in e-commerce, your multiples just suck ass the entire way
+34:00
+up and your profit margins suck ass the entire way up. So this is why we like building our little gizmos. Anyways, I
+34:07
+want to give you a few last tips to this and why this works really, really well. All right, so first thing, how do we get
+34:13
+growth after we grow the business? So again, this model I showed you is designed to work with ads. The way we
+34:20
+started getting our next customers at Hires once I stopped DMing people was just ads. Now, if you're running ads,
+34:26
+you have to understand that if you're selling a $100 a month subscription, your conversions on the front end of the
+34:31
+site from the ads are going to be very low because getting someone to sign up, put their card down for $100 a month and actually get to the point where they use
+34:37
+their software is actually extremely hard. Not only is the sales process to get a $100 subscription down extremely
+34:45
+difficult, like the conversions are very low, getting the person on the point to where they actually use your software
+34:51
+completely and then stay in your software, that's a whole other point. So you're going to have like 5% conversion rates and and because your software is
+34:57
+new, the amount of people that sign up, you're only going to see like 20% of them actually use the software if your software is perfect. So it's just like
+35:04
+[ __ ] However, if you run ads to a callunnel for your software where you do
+35:09
+this onetoone selling, you maximize the amount of money coming from the ads and you get it all at once upfront instead
+35:15
+of getting it monthtomonth, which then allows the ad to be super profitable. Let's imagine you're selling a $350 a
+35:22
+month subscription and your cost to get a phone call is $500 and only 30% of
+35:29
+your customers on the phone calls convert. That's usually what our our phone conversion rates are at Hyros.
+35:35
+This doesn't really work out because every phone call is just the math's terrible. At $500, we're paying $1,500
+35:41
+for a conversion essentially at 30%. However, if each conversion is worth
+35:46
+$3,500, we're making money on our ads. This makes it very easy to run ads and get more customers in and start building
+35:52
+word of mouth. This is why we want to structure our business like this because when we can run ads or pay influencers
+35:57
+or by advertising very efficiently, it allows us to maximize the customers coming in. And the call funnels and
+36:03
+selling over the phone and SAS, which I'll give a script on how we do this here shortly on the channel, you should subscribe, is the best way to do this.
+36:10
+So, one, this is how we can grow. Now the other way we grow is putting
+36:16
+distribution into our software. Now if you're cash flowing a company there are ways to distribute your software. So for
+36:22
+example if you look at Zapier they had one of the best distribution models ever. They got businesses that were on Zapier to post their uh businesses on
+36:30
+Zapier and then share it because they wanted other people to use their Zapier links. Okay. If you look at go highlevel
+36:36
+uh which is kind of like clickfunnels but for agencies what they did is they made their main customer agencies and they allowed the agencies to white label
+36:43
+the software and then the agencies sold the software for them. So getting in in clever distribution systems like that
+36:49
+incredible way to grow the company for free. So think about that. But the best way to also grow your company is word of
+36:55
+mouth. Duh. But let's actually look look at what word of mouth is. You need to make your product so good that when you
+37:01
+get one of your customers on, they tell other people about the product. That sounds very simple, but most people
+37:06
+don't actually do this. They make a product that's okay and then nobody tells anybody. At Hyros, we made sure
+37:11
+every customer experience first on was so good that they left a testimonial and then we advertised those testimonials
+37:17
+and we also gave them there's an affiliate program, but people liked Hyro so much they told other people about it
+37:22
+and then we got more customers for free. And at this point, you have to understand in SAS, most of your business
+37:28
+needs to be organic. If you look at where your sales are coming from, it should come from people Google searching your business. Now, when you first start
+37:34
+off, that's not going to happen a lot. But on your second, third, fourth year, if it's not happening, your business sucks ass, dude. Like, it's not good.
+37:41
+You need to have something that starts being well known in the industry as the best place to go or you don't really have a business. So when you're making
+37:47
+your business, focus more so on making your customers super duper happy, making
+37:52
+the experience so good that they tell other people about it. And that's how your business is going to naturally flywheel. Say we're doing this ad and
+37:59
+cash flow focused system. Well, if we're going out there and we're getting just 30 customers a month, but each of those
+38:04
+customers tells one other people about it, we're actually getting 60 customers a month. And then those 60 customers turn into 120 customers a month. That
+38:11
+math right there is horid and it doesn't really make sense. I get that. But you understand that for every customer you get, you're going to get two, three more
+38:17
+customers. This makes this cash flow ad system that I gave you. Even if we're going and breaking even doing it, we're
+38:23
+actually growing because every customer you get in is eventually going to turn into two more customers. So just focus on making the experience super good. So
+38:29
+this happens and this is going to end up flywheeling where your first year, yeah, it's not that important, but by your
+38:34
+second year, let's say you have 100 customers, all hundred of them will probably have gotten you at least one more customer. Now you have 200
+38:40
+customers. Those 200 customers will probably get you one more customer. So on and so forth. Now, finally, another
+38:46
+distribution engine I'm going to talk about, but I don't really like is content and media. These are all free or
+38:51
+ways to grow your company that pay for themselves, if you haven't noticed yet. So, a really good example, this is Blockworks. They made a huge blog and
+38:57
+news site based around crypto for institutions. And they made a lot of
+39:02
+money doing that. They basically made a media company where they made content on crypto. Then what they did once they had
+39:07
+the content media flowing, what they did is then they attached a SAS to it. If you look at uh SEO MA, this was an old
+39:15
+SEO company that had a uh SEO software. They had an SEO blog that they made
+39:20
+really popular and then they attach the software to the blog. So going and making content, making YouTube videos,
+39:26
+making a news source and then attaching a SAS product to it also is a fantastic
+39:31
+way to grow your company. I don't like this cuz I don't like content as a strategy to grow your SAS company. I'm
+39:37
+making content right now in SAS because some of our best customers at Hyros are SAS companies. Seriously, you cannot
+39:44
+track pauls. You cannot track MR. You cannot track LTV. Back to your ads without Hyros. It just doesn't happen.
+39:49
+And so, you can't run ads for your SAS company without Hyros. You should use Hyros for it. It's going to make you tons of money. That's why I'm making
+39:55
+these videos because you're going to watch these as you're building your SAS companies and think, I would like my ads
+40:00
+to make money and to grow my company with ads. You're going to use hires. If you want more people coming to your site
+40:05
+and booking calls and coming back to your site, AI agents that reach out and bring these customers back and get you more calls for free, you're going to use
+40:11
+Hyros Air. So, this is why I'm making this content for you. Now, I don't like this as the main distribution model.
+40:17
+This is a nice icing on top of the cake. It shouldn't be your main thing because creating content is hard. I've been
+40:23
+doing content for almost 15 years now. So naturally, it's it's easy for me. If
+40:28
+you're just starting off, this is your first time building a SAS company. You really don't also want to be trying to be an influencer at the same time, but
+40:34
+it does work. Okay, it does work. This is why signing up an influencer to be one of your founders is also kind of a
+40:40
+hack. Okay, so you can consider that. I think signing up an influencer when the
+40:46
+business is already growing. So, for example, uh Sam Ovens brought on Alex Hermoszi for a good chunk of school.
+40:53
+It's no secret. And if Sam had brought Alex on very early on, Sam he probably
+40:59
+would have had to give Alex like almost majority of the company. That wouldn't have been great. But because he got
+41:05
+school to a point where was working, all the numbers were working, the flywheel was going, I was able to get Alex on at
+41:10
+a reasonable a reasonable cost. I'm not going to get into the the n the numbers of that deal. that's not my business's
+41:16
+share. But he was able to get it at a place where we didn't have to give up his entire company to get Alex on. So I
+41:21
+think bringing the influencer on after the product's already working much better idea because then you have the flywheel already spinning and then the
+41:27
+influencer sends people into flywheel already getting customers. But to start off having an influencer start or if you're an influencer already, you
+41:34
+already have a business where you make videos and stuff. This also works as well to get your first customers. But you have to get back to the core basics
+41:40
+of selling 101 and making sure the product works. I'm sure you've seen so many influencers start businesses and
+41:45
+SAS businesses and in a year later the SAS business doesn't exist because they haven't done the initial stuff I talked about in this video or achieve product
+41:51
+market fit that I'm going to talk about in the video that's linked below here and you can see here very soon. Okay, so
+41:57
+the final thing I'm going to tell you is the only thing you really need to worry about is retaining customers and making
+42:02
+sure they're happy. I've already tapped on this and it seems so basic, but if you get 30 customers in your first year
+42:07
+and all 30 stay and then all of them refer another customer, your life is super easy at that point. You could do
+42:13
+you could ignore marketing, you could ignore branding, you could ignore anything else and if you just have this right here in a phenomenal customer
+42:20
+experience, your life is super easy. If you build a SAS and then you get it good enough that okay, sure you're only
+42:25
+getting like 100 customers in a month but 99% of them stay for years. You
+42:31
+don't even have to do anything marketing wise or contentwise or distribution well. You just have to keep running the
+42:37
+ship the same exact way and it just stacks on top of itself and it snowballs as more and more customers refer each other. If you look at Zapier, you look
+42:43
+at Slack, you look at Dropbox, you look at all the best companies out there uh that have grown a lot recently, you look
+42:49
+at Cursor, like they're not spending money on marketing or anything like that. You look at Gamma uh which has recently hit a billion dollar valuation.
+42:55
+No marketing. What's they spend no money on marketing at all. That's just this this [ __ ] thing right here. And so
+43:02
+make this your focus when you're bootstrapping, not marketing, not getting more customers, not even getting more cash flow in. And once you get
+43:07
+enough cash flow coming in, it's good. Focus on retaining the customer, even if you have to break even for a couple
+43:12
+months or lose money. Okay? Uh like just save up the money, invest in the
+43:18
+retaining the customer. This is how you build a really big customer long term. If you are building these little mini
+43:23
+SAS apps, which I'm going to talk about in a future video, they're making 30 50k a month. Sure, you can cash flow them in
+43:29
+80%. My advice to you is once you get good enough to do this consistently, try and build something that makes a lot
+43:34
+more money and then try not to cash flow it so hard because the way you're going to get really rich is through equity and
+43:40
+building something big. Again, if you just want to make a couple hundred thousand a month, 150,000 a month, 100,000 a month, there's nothing wrong
+43:46
+with just doing this. It's just hard to maintain because the softwares aren't very good and and eventually they're
+43:53
+going to get eaten up by something and it's just it's a messy business and it's not something you can sell and
+43:58
+eventually quit and it's also sucks limiting yourself to these things. So, this works. You can make a lot of money
+44:04
+doing it. You can make millions of dollars a year doing it. I just I think I think you can go for a little bit bigger. So, this is my entire guide on
+44:11
+bootstrapping and everything I think about when it comes to bootstrapping a business and all the technicals behind it. So, watch our product market fit
+44:17
+videos and if you want to see how to actually start a company from scratch and like the things you should solve, how to build the company and start
+44:22
+growing it, how to retain customers, watch this video right here on how to build a million-dollar SAS from scratch.
+44:28
+Both these are going to give you tons of information just like this. This video focused exclusively on bootstrapping.
+44:33
+This one's going to tell you a little bit more about how to actually start the company. This one right here is going to tell you how to achieve product market
+44:39
+fit. There's also a video link below in the description of just 52 minutes of everything I've done in 15 years and
+44:44
+just general tips that should help you and show up in your bottom line and building your SAS company. Kind of more from an experienced founder. Check them
+44:50
+all out. If you want to run ads for your SAS company, you should [ __ ] be using Hyros. You're insane. You can literally go sign up for Hyros right now. We
+44:57
+guarantee that you're going to be able to grow your ads. You're going to be able to track everything way more profitably and attribute it back to your ads so you can grow your ads and make
+45:02
+more money from them. And you should have Hyros Air on your site because we'll reach out to people that come to your site whether you know them and you're existing customer or not. whether
+45:09
+you've ever seen them before. We'll reach out to them, talk to them, bring them back to the site, get them on calls. You will get more calls, thus you
+45:14
+will get more money. You should be using both. They're designed for you and we guarantee they work. They're linked below this video. And that's all I got.
+45:20
+If you like SAS content from someone who's actually built SAS companies and isn't selling you courses on how to build SAS companies, you should
+45:25
+subscribe to this channel. Okay. Bye.

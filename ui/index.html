@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Jobs to Leads Pipeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-section h2::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .output-section {
+            background: #f9f9f9;
+            padding: 30px 40px;
+            border-top: 2px solid #e0e0e0;
+            display: none;
+        }
+
+        .output-section.active {
+            display: block;
+        }
+
+        .output-section h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .command-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .tag-input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            min-height: 48px;
+        }
+
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .tag-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 150px;
+            font-size: 14px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 LinkedIn Jobs to Leads Pipeline</h1>
+            <p>Search LinkedIn jobs and automatically scrape decision-maker leads</p>
+        </div>
+
+        <form id="pipelineForm" class="form-container">
+            <!-- LinkedIn Job Search -->
+            <div class="form-section">
+                <h2>🔍 LinkedIn Job Search</h2>
+                
+                <div class="form-group">
+                    <label for="industry">Industry</label>
+                    <select id="industry" onchange="updatePresets()">
+                        <option value="23">Food Production</option>
+                        <option value="31">Hospitality (Hotels & Restaurants)</option>
+                        <option value="custom">Custom Industry Code</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customIndustryGroup" style="display: none;">
+                    <label for="customIndustry">Custom Industry Code</label>
+                    <input type="text" id="customIndustry" placeholder="e.g., 23">
+                    <div class="help-text">Enter LinkedIn industry code (f_I parameter)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="jobTitles">Job Titles to Search</label>
+                    <div class="tag-input-container" id="jobTitlesContainer">
+                        <input type="text" class="tag-input" id="jobTitlesInput" placeholder="Type and press Enter...">
+                    </div>
+                    <div class="help-text">Press Enter after each title. Examples: Business Development Manager, Export Manager, Sales Director</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location (optional)</label>
+                    <select id="location">
+                        <option value="">No Location Filter</option>
+                        <option value="European Union">European Union</option>
+                        <option value="Spain">Spain</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Italy">Italy</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobsCount">Jobs per Search</label>
+                    <input type="number" id="jobsCount" value="100" min="50" max="500" step="50">
+                    <div class="help-text">Number of job postings to fetch per search query</div>
+                </div>
+            </div>
+
+            <!-- Lead Scraping -->
+            <div class="form-section">
+                <h2>👥 Lead Scraping Settings</h2>
+                
+                <div class="form-group">
+                    <label for="decisionMakerTitles">Decision Maker Titles</label>
+                    <div class="tag-input-container" id="decisionMakerContainer">
+                        <input type="text" class="tag-input" id="decisionMakerInput" placeholder="Type and press Enter...">
+                    </div>
+                    <div class="help-text">Titles to search for within companies. Examples: Sales Manager, Business Development Manager</div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="leadsPerCompany">Leads per Company</label>
+                        <input type="number" id="leadsPerCompany" value="500" min="100" max="2000" step="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxCompanies">Max Companies (0 = unlimited)</label>
+                        <input type="number" id="maxCompanies" value="0" min="0" max="100">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Options -->
+            <div class="form-section">
+                <h2>⚙️ Advanced Options</h2>
+                
+                <div class="form-group">
+                    <label for="runName">Run Name (optional)</label>
+                    <input type="text" id="runName" placeholder="e.g., eu-food-production-q1">
+                    <div class="help-text">Leave empty to auto-generate timestamp-based name</div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="skipJobs">
+                        <label for="skipJobs" style="margin: 0;">Skip LinkedIn job search (use existing data)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="skipLeads">
+                        <label for="skipLeads" style="margin: 0;">Skip lead scraping (only extract companies)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
+                <button type="submit" class="btn-primary">🚀 Run Pipeline</button>
+            </div>
+        </form>
+
+        <!-- Output Section -->
+        <div class="output-section" id="outputSection">
+            <h3>📋 Generated Command</h3>
+            <div class="command-output" id="commandOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        // Industry presets
+        const industryPresets = {
+            '23': {
+                jobTitles: ['Business Development Manager', 'Export Manager', 'Sales Director', 'Commercial Director'],
+                decisionMaker: ['Sales Manager', 'Business Development Manager', 'Export Manager'],
+                location: 'European Union'
+            },
+            '31': {
+                jobTitles: ['Interior Designer', 'Purchasing Manager', 'Procurement Manager', 'Operations Manager'],
+                decisionMaker: ['Interior Designer', 'Purchasing Manager', 'Procurement Manager', 'General Manager'],
+                location: ''
+            }
+        };
+
+        // Update presets based on industry selection
+        function updatePresets() {
+            const industry = document.getElementById('industry').value;
+            const customGroup = document.getElementById('customIndustryGroup');
+            
+            if (industry === 'custom') {
+                customGroup.style.display = 'block';
+                return;
+            } else {
+                customGroup.style.display = 'none';
+            }
+
+            const preset = industryPresets[industry];
+            if (preset) {
+                // Clear and reload job titles
+                document.getElementById('jobTitlesContainer').innerHTML = '<input type="text" class="tag-input" id="jobTitlesInput" placeholder="Type and press Enter...">';
+                const getJobTitles = setupTagInput('jobTitlesContainer', 'jobTitlesInput', 'jobTitles', preset.jobTitles);
+                
+                // Clear and reload decision maker titles
+                document.getElementById('decisionMakerContainer').innerHTML = '<input type="text" class="tag-input" id="decisionMakerInput" placeholder="Type and press Enter...">';
+                const getDecisionMakerTitles = setupTagInput('decisionMakerContainer', 'decisionMakerInput', 'decisionMaker', preset.decisionMaker);
+                
+                // Set location
+                document.getElementById('location').value = preset.location;
+            }
+        }
+
+        // Tag input functionality
+        function setupTagInput(containerId, inputId, storageKey, defaultValues) {
+            const container = document.getElementById(containerId);
+            const input = document.getElementById(inputId);
+            const tags = [];
+
+            // Load default values
+            if (defaultValues && defaultValues.length > 0) {
+                defaultValues.forEach(tag => addTag(tag));
+            }
+
+            function addTag(text) {
+                if (!text.trim() || tags.includes(text.trim())) return;
+                
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerHTML = `
+                    ${text.trim()}
+                    <span class="tag-remove" onclick="this.parentElement.remove()">×</span>
+                `;
+                
+                container.insertBefore(tag, input);
+                tags.push(text.trim());
+                input.value = '';
+            }
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTag(input.value);
+                }
+            });
+
+            return () => {
+                return Array.from(container.querySelectorAll('.tag'))
+                    .map(tag => tag.textContent.replace('×', '').trim());
+            };
+        }
+
+        // Initialize with Food Production preset
+        const preset = industryPresets['23'];
+        let getJobTitles = setupTagInput('jobTitlesContainer', 'jobTitlesInput', 'jobTitles', preset.jobTitles);
+        let getDecisionMakerTitles = setupTagInput('decisionMakerContainer', 'decisionMakerInput', 'decisionMaker', preset.decisionMaker);
+
+        // Form submission
+        document.getElementById('pipelineForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const jobTitles = getJobTitles();
+            const decisionMakerTitles = getDecisionMakerTitles();
+            const industry = document.getElementById('industry').value;
+            const customIndustry = document.getElementById('customIndustry').value;
+            const location = document.getElementById('location').value;
+            const jobsCount = document.getElementById('jobsCount').value;
+            const leadsPerCompany = document.getElementById('leadsPerCompany').value;
+            const maxCompanies = document.getElementById('maxCompanies').value;
+            const runName = document.getElementById('runName').value;
+            const skipJobs = document.getElementById('skipJobs').checked;
+            const skipLeads = document.getElementById('skipLeads').checked;
+
+            let command = 'node linkedinJobsToLeads.js';
+            
+            if (jobTitles.length > 0) {
+                command += ` \\\n  --job-titles="${jobTitles.join(';')}"`;
+            }
+            
+            const industryCode = industry === 'custom' ? customIndustry : industry;
+            if (industryCode) {
+                command += ` \\\n  --industry="${industryCode}"`;
+            }
+            
+            if (location) {
+                command += ` \\\n  --location="${location}"`;
+            }
+            
+            if (decisionMakerTitles.length > 0) {
+                command += ` \\\n  --decision-maker-titles="${decisionMakerTitles.join(';')}"`;
+            }
+            
+            command += ` \\\n  --jobs-count=${jobsCount}`;
+            command += ` \\\n  --leads-per-company=${leadsPerCompany}`;
+            
+            if (maxCompanies > 0) {
+                command += ` \\\n  --max-companies=${maxCompanies}`;
+            }
+            
+            if (runName) {
+                command += ` \\\n  --run-name="${runName}"`;
+            }
+            
+            if (skipJobs) {
+                command += ` \\\n  --skip-jobs`;
+            }
+            
+            if (skipLeads) {
+                command += ` \\\n  --skip-leads`;
+            }
+
+            document.getElementById('commandOutput').textContent = command;
+            document.getElementById('outputSection').classList.add('active');
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        function resetForm() {
+            document.getElementById('pipelineForm').reset();
+            document.getElementById('outputSection').classList.remove('active');
+            location.reload();
+        }
+    </script>
+</body>
+</html>
