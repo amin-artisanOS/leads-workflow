@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OutreachOS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d14;--surface:#15151f;--card:#1c1c2a;--border:#2a2a3d;
+  --accent:#6366f1;--accent2:#818cf8;--text:#e2e8f0;--muted:#64748b;
+  --success:#22c55e;--warn:#f59e0b;--error:#ef4444;
+  --radius:10px;--font:'Inter',system-ui,sans-serif
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;min-height:100vh}
+a{color:var(--accent2);text-decoration:none}
+
+/* Layout */
+#app{display:flex;flex-direction:column;min-height:100vh}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-weight:700;font-size:16px;letter-spacing:-0.3px;color:var(--text)}
+.logo span{color:var(--accent)}
+nav{display:flex;gap:4px}
+nav button{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;transition:all .15s}
+nav button:hover{color:var(--text);background:rgba(255,255,255,.05)}
+nav button.active{color:var(--accent2);background:rgba(99,102,241,.12)}
+.header-right{display:flex;align-items:center;gap:12px}
+.api-status{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.api-status.ok{background:var(--success)}
+.api-status.err{background:var(--error)}
+.btn-icon{background:none;border:1px solid var(--border);color:var(--muted);cursor:pointer;padding:6px 10px;border-radius:6px;font-size:12px;transition:all .15s}
+.btn-icon:hover{border-color:var(--accent);color:var(--accent)}
+
+main{flex:1;padding:28px 32px;max-width:1200px;width:100%;margin:0 auto}
+
+/* Cards / Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.stat-card .val{font-size:28px;font-weight:700;line-height:1;margin-bottom:6px}
+.stat-card .lbl{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.stat-card.accent .val{color:var(--accent2)}
+.stat-card.success .val{color:var(--success)}
+.stat-card.warn .val{color:var(--warn)}
+
+/* Tables */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:15px;font-weight:600}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 14px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border)}
+td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.04)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge.active{background:rgba(34,197,94,.15);color:var(--success)}
+.badge.paused{background:rgba(245,158,11,.15);color:var(--warn)}
+.badge.done{background:rgba(99,102,241,.15);color:var(--accent2)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-secondary{background:var(--card);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent2)}
+.btn-danger{background:rgba(239,68,68,.15);color:var(--error);border:1px solid rgba(239,68,68,.2)}
+.btn-danger:hover{background:rgba(239,68,68,.25)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* Forms */
+.form-group{margin-bottom:16px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
+input,textarea,select{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:9px 12px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px}
+.form-hint{font-size:11px;color:var(--muted);margin-top:4px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;width:100%;max-width:540px;max-height:85vh;overflow-y:auto}
+.modal h3{font-size:16px;margin-bottom:20px}
+.modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+
+/* Settings modal */
+.settings-row{display:flex;gap:8px;align-items:flex-end}
+.settings-row input{flex:1}
+
+/* Steps editor */
+.step-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;position:relative}
+.step-row .step-num{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.step-remove{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:4px}
+.step-remove:hover{color:var(--error)}
+.var-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.var-chip{background:rgba(99,102,241,.12);color:var(--accent2);border:1px solid rgba(99,102,241,.2);border-radius:4px;padding:1px 6px;font-size:11px;cursor:pointer}
+.var-chip:hover{background:rgba(99,102,241,.25)}
+
+/* Progress bar */
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:8px}
+.progress-bar .fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+
+/* Toast */
+#toast{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast{padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;border-left:3px solid;animation:slideIn .2s ease}
+.toast.success{background:#1a2e1a;color:var(--success);border-color:var(--success)}
+.toast.error{background:#2e1a1a;color:var(--error);border-color:var(--error)}
+.toast.info{background:#1a1a2e;color:var(--accent2);border-color:var(--accent)}
+@keyframes slideIn{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* Tab pages */
+.page{display:none}.page.active{display:block}
+.empty{color:var(--muted);text-align:center;padding:48px;font-size:13px}
+
+/* Run job status */
+.job-banner{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.job-banner.done{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2)}
+.job-banner.error{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2)}
+.spinner{width:14px;height:14px;border:2px solid rgba(99,102,241,.3);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;display:inline-block;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">Outreach<span>OS</span></div>
+    <nav>
+      <button class="active" onclick="showPage('overview')">Overview</button>
+      <button onclick="showPage('campaigns')">Campaigns</button>
+      <button onclick="showPage('inboxes')">Inboxes</button>
+      <button onclick="showPage('import')">Import Leads</button>
+      <button onclick="showPage('replies')">Replies</button>
+    </nav>
+    <div class="header-right">
+      <div class="api-status" id="apiStatus" title="API connection status"></div>
+      <button class="btn-icon" onclick="openSettings()">⚙ Settings</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- OVERVIEW -->
+    <div class="page active" id="page-overview">
+      <div class="stats-grid" id="overviewStats">
+        <div class="stat-card"><div class="val" id="stat-leads">—</div><div class="lbl">Total Leads</div></div>
+        <div class="stat-card accent"><div class="val" id="stat-contacted">—</div><div class="lbl">Contacted</div></div>
+        <div class="stat-card success"><div class="val" id="stat-replies">—</div><div class="lbl">Replies</div></div>
+        <div class="stat-card warn"><div class="val" id="stat-opens">—</div><div class="lbl">Opens</div></div>
+        <div class="stat-card"><div class="val" id="stat-inboxes">—</div><div class="lbl">Active Inboxes</div></div>
+      </div>
+      <div class="section-header">
+        <div class="section-title">Campaigns</div>
+        <button class="btn btn-primary btn-sm" onclick="showPage('campaigns')">Manage →</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Leads</th><th>Contacted</th><th>Replies</th><th>Open Rate</th><th>Status</th></tr></thead>
+          <tbody id="overviewCampaigns"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CAMPAIGNS -->
+    <div class="page" id="page-campaigns">
+      <div id="jobBanner" style="display:none"></div>
+      <div class="section-header">
+        <div class="section-title">Campaigns</div>
+        <button class="btn btn-primary btn-sm" onclick="openCreateCampaign()">+ New Campaign</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Leads</th><th>Contacted</th><th>Replies</th><th>Opens</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="campaignsList"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- INBOXES -->
+    <div class="page" id="page-inboxes">
+      <div class="section-header">
+        <div class="section-title">Inboxes</div>
+        <button class="btn btn-primary btn-sm" onclick="openAddInbox()">+ Add Inbox</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Email</th><th>Today's Sends</th><th>Daily Limit</th><th>All-Time</th><th>Status</th><th></th></tr></thead>
+          <tbody id="inboxesList"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- IMPORT -->
+    <div class="page" id="page-import">
+      <div class="section-header"><div class="section-title">Import Leads from CSV</div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <div class="form-group">
+            <label>Campaign</label>
+            <select id="importCampaign"></select>
+          </div>
+          <div class="form-group">
+            <label>Paste CSV content</label>
+            <textarea id="importCsv" rows="14" placeholder="Email,FirstName,LastName,Company_Name,Niche,Salutation,Personalized_Opening&#10;john@example.com,John,Doe,Acme,SaaS,Hi John,..."></textarea>
+            <div class="form-hint">Required column: Email. Optional: FirstName, LastName, Company_Name, Niche, Salutation, Personalized_Opening, Website</div>
+          </div>
+          <button class="btn btn-primary" onclick="importLeads()" id="importBtn">Import Leads</button>
+        </div>
+        <div>
+          <div class="form-group"><label>Preview (first 5 rows)</label></div>
+          <div class="table-wrap" style="font-size:12px">
+            <table><thead><tr id="previewHead"></tr></thead><tbody id="previewBody"></tbody></table>
+          </div>
+          <div id="importResult" style="margin-top:16px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPLIES -->
+    <div class="page" id="page-replies">
+      <div class="section-header">
+        <div class="section-title">Replies</div>
+        <button class="btn btn-secondary btn-sm" onclick="loadReplies()">↻ Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Email</th><th>Name</th><th>Company</th><th>Campaign</th><th>Detected At</th></tr></thead>
+          <tbody id="repliesList"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Toast container -->
+<div id="toast"></div>
+
+<!-- Settings Modal -->
+<div class="modal-bg" id="settingsModal">
+  <div class="modal">
+    <h3>Settings</h3>
+    <div class="form-group">
+      <label>Backend API URL</label>
+      <div class="settings-row">
+        <input type="url" id="apiUrl" placeholder="https://outreach-api.onrender.com"/>
+        <button class="btn btn-secondary" onclick="testConnection()">Test</button>
+      </div>
+      <div class="form-hint">Your Render backend URL</div>
+    </div>
+    <div class="form-group">
+      <label>API Key (X-API-Key)</label>
+      <input type="password" id="apiKey" placeholder="Your API_SECRET value"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Campaign Modal -->
+<div class="modal-bg" id="campaignModal">
+  <div class="modal">
+    <h3>New Campaign</h3>
+    <div class="form-group">
+      <label>Campaign Name</label>
+      <input type="text" id="campName" placeholder="e.g. Artisan Outreach Q2"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label><input type="checkbox" id="campTrackOpens" checked/> Track Opens</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="campTrackClicks" checked/> Track Clicks</label>
+      </div>
+    </div>
+    <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between">
+      <label style="margin:0;font-size:13px;font-weight:600;color:var(--text)">Email Steps</label>
+      <button class="btn btn-secondary btn-sm" onclick="addStep()">+ Add Step</button>
+    </div>
+    <div class="form-hint" style="margin-bottom:10px">Variables: click chips to insert → <span class="var-chip" style="cursor:default">{{FirstName}}</span> <span class="var-chip" style="cursor:default">{{Company}}</span> <span class="var-chip" style="cursor:default">{{Salutation}}</span> <span class="var-chip" style="cursor:default">{{Niche}}</span> <span class="var-chip" style="cursor:default">{{Personalized_Opening}}</span></div>
+    <div id="stepsList"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('campaignModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="createCampaign()">Create Campaign</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Inbox Modal -->
+<div class="modal-bg" id="inboxModal">
+  <div class="modal">
+    <h3>Add Google Workspace Inbox</h3>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="inboxEmail" placeholder="you@yourdomain.com"/>
+    </div>
+    <div class="form-group">
+      <label>App Password</label>
+      <input type="password" id="inboxPass" placeholder="xxxx xxxx xxxx xxxx"/>
+      <div class="form-hint">Generate at: Google Account → Security → 2-Step Verification → App passwords</div>
+    </div>
+    <div class="form-group">
+      <label>Daily Send Limit</label>
+      <input type="number" id="inboxLimit" value="40" min="1" max="500"/>
+      <div class="form-hint">Recommended: 40–50/day per warmed inbox</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('inboxModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="addInbox()">Add Inbox</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────────────────
+let API_URL = localStorage.getItem('outreach_api_url') || '';
+let API_KEY = localStorage.getItem('outreach_api_key') || '';
+
+// ── API helpers ─────────────────────────────────────────────────────────────
+async function apiFetch(path, opts = {}) {
+  const res = await fetch(API_URL + path, {
+    headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY, ...opts.headers },
+    ...opts
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(err.error || res.statusText);
+  }
+  return res.json();
+}
+
+const get  = (path) => apiFetch(path);
+const post = (path, body) => apiFetch(path, { method: 'POST', body: JSON.stringify(body) });
+const del  = (path) => apiFetch(path, { method: 'DELETE' });
+
+// ── Toast ───────────────────────────────────────────────────────────────────
+function toast(msg, type = 'info') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toast').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ── Navigation ──────────────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector(`nav button[onclick="showPage('${name}')"]`).classList.add('active');
+  if (name === 'overview')   loadOverview();
+  if (name === 'campaigns')  loadCampaigns();
+  if (name === 'inboxes')    loadInboxes();
+  if (name === 'import')     loadImportCampaigns();
+  if (name === 'replies')    loadReplies();
+}
+
+// ── Overview ────────────────────────────────────────────────────────────────
+async function loadOverview() {
+  if (!API_URL) return;
+  try {
+    const campaigns = await get('/api/campaigns');
+    let totalLeads = 0, contacted = 0, replies = 0, opens = 0;
+    for (const c of campaigns) {
+      totalLeads += Number(c.stats?.total_leads || 0);
+      contacted  += Number(c.stats?.contacted   || 0);
+      replies    += Number(c.stats?.replied      || 0);
+      opens      += Number(c.stats?.total_opens  || 0);
+    }
+    document.getElementById('stat-leads').textContent     = totalLeads.toLocaleString();
+    document.getElementById('stat-contacted').textContent = contacted.toLocaleString();
+    document.getElementById('stat-replies').textContent   = replies.toLocaleString();
+    document.getElementById('stat-opens').textContent     = opens.toLocaleString();
+
+    const inboxes = await get('/api/inboxes');
+    document.getElementById('stat-inboxes').textContent = inboxes.filter(i => i.active).length;
+
+    const tbody = document.getElementById('overviewCampaigns');
+    tbody.innerHTML = campaigns.length ? campaigns.map(c => {
+      const s = c.stats || {};
+      const ct = Number(s.contacted || 0);
+      const openRate = ct > 0 ? ((Number(s.total_opens || 0) / ct) * 100).toFixed(1) + '%' : '—';
+      return `<tr>
+        <td><b>${c.name}</b></td>
+        <td>${s.total_leads || 0}</td>
+        <td>${s.contacted || 0}</td>
+        <td>${s.replied || 0}</td>
+        <td>${openRate}</td>
+        <td><span class="badge ${c.status}">${c.status}</span></td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="6" class="empty">No campaigns yet</td></tr>`;
+
+    document.getElementById('apiStatus').className = 'api-status ok';
+  } catch (e) {
+    document.getElementById('apiStatus').className = 'api-status err';
+    toast('API error: ' + e.message, 'error');
+  }
+}
+
+// ── Campaigns ────────────────────────────────────────────────────────────────
+let _pollTimer = null;
+
+async function loadCampaigns() {
+  if (!API_URL) return;
+  try {
+    const campaigns = await get('/api/campaigns');
+    const tbody = document.getElementById('campaignsList');
+    tbody.innerHTML = campaigns.length ? campaigns.map(c => {
+      const s = c.stats || {};
+      const ct = Number(s.contacted || 0);
+      const openRate = ct > 0 ? ((Number(s.total_opens || 0) / ct) * 100).toFixed(1) + '%' : '—';
+      return `<tr>
+        <td><b>${c.name}</b></td>
+        <td>${s.total_leads || 0}</td>
+        <td>${s.contacted || 0}</td>
+        <td>${s.replied || 0}</td>
+        <td>${openRate}</td>
+        <td><span class="badge ${c.status}">${c.status}</span></td>
+        <td>
+          <button class="btn btn-secondary btn-sm" onclick="runCampaign(${c.id}, '${c.name}')">▶ Run</button>
+          <button class="btn btn-secondary btn-sm" onclick="runCampaign(${c.id}, '${c.name}', true)" style="margin-left:4px">👁 Dry Run</button>
+        </td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="7" class="empty">No campaigns yet. Create one to get started.</td></tr>`;
+  } catch (e) { toast('Load failed: ' + e.message, 'error'); }
+}
+
+async function runCampaign(id, name, dry = false) {
+  const banner = document.getElementById('jobBanner');
+  banner.style.display = 'block';
+  banner.className = 'job-banner';
+  banner.innerHTML = `<div><span class="spinner"></span> Running "${name}"${dry ? ' (dry run)' : ''}...</div>`;
+
+  try {
+    await post(`/api/campaigns/${id}/run${dry ? '?dry_run=true' : ''}`);
+    pollJobStatus(id, name, dry);
+  } catch (e) {
+    banner.className = 'job-banner error';
+    banner.innerHTML = `❌ Failed to start: ${e.message}`;
+    toast('Run failed: ' + e.message, 'error');
+  }
+}
+
+function pollJobStatus(id, name, dry) {
+  clearInterval(_pollTimer);
+  const banner = document.getElementById('jobBanner');
+  _pollTimer = setInterval(async () => {
+    try {
+      const job = await get(`/api/campaigns/${id}/job`);
+      if (job.status === 'running') {
+        banner.innerHTML = `<div><span class="spinner"></span> Running "${name}"${dry ? ' (dry run)' : ''}...</div>`;
+      } else if (job.status === 'done') {
+        clearInterval(_pollTimer);
+        banner.className = 'job-banner done';
+        const s = job.stats || {};
+        banner.innerHTML = `✅ Done — Sent: <b>${s.sent || 0}</b> &nbsp; Skipped: ${s.skipped || 0} &nbsp; Failed: ${s.failed || 0}`;
+        toast(`Run complete: ${s.sent || 0} sent`, 'success');
+        loadCampaigns();
+      } else if (job.status === 'error') {
+        clearInterval(_pollTimer);
+        banner.className = 'job-banner error';
+        banner.innerHTML = `❌ Error: ${job.error}`;
+        toast('Run error: ' + job.error, 'error');
+      }
+    } catch (_) {}
+  }, 3000);
+}
+
+// Create Campaign
+let _steps = [];
+
+function openCreateCampaign() {
+  _steps = [];
+  document.getElementById('campName').value = '';
+  document.getElementById('campTrackOpens').checked = true;
+  document.getElementById('campTrackClicks').checked = true;
+  document.getElementById('stepsList').innerHTML = '';
+  addStep();
+  document.getElementById('campaignModal').classList.add('open');
+}
+
+function addStep() {
+  const num = _steps.length + 1;
+  _steps.push({ subject: '', body: '', delay: num === 1 ? 0 : 3 });
+  renderSteps();
+}
+
+function removeStep(i) {
+  _steps.splice(i, 1);
+  renderSteps();
+}
+
+function insertVar(field, varName) {
+  const el = document.getElementById(field);
+  const pos = el.selectionStart;
+  const val = el.value;
+  el.value = val.slice(0, pos) + varName + val.slice(pos);
+  el.focus();
+  el.selectionStart = el.selectionEnd = pos + varName.length;
+}
+
+function renderSteps() {
+  const vars = ['{{FirstName}}','{{Company}}','{{Salutation}}','{{Niche}}','{{Personalized_Opening}}','{{Website}}'];
+  document.getElementById('stepsList').innerHTML = _steps.map((s, i) => `
+    <div class="step-row">
+      <div class="step-num">Step ${i + 1}</div>
+      <button class="step-remove" onclick="removeStep(${i})" ${_steps.length === 1 ? 'disabled' : ''}>×</button>
+      <div class="form-group" style="margin-bottom:10px">
+        <label>Delay (days after previous step)</label>
+        <input type="number" id="step-delay-${i}" value="${s.delay}" min="0" onchange="_steps[${i}].delay=+this.value" style="width:100px"/>
+      </div>
+      <div class="form-group" style="margin-bottom:8px">
+        <label>Subject</label>
+        <input type="text" id="step-sub-${i}" value="${s.subject}" placeholder="Quick question about {{Company}}" onchange="_steps[${i}].subject=this.value"/>
+        <div class="var-chips">${vars.map(v => `<span class="var-chip" onclick="insertVar('step-sub-${i}','${v}')">${v}</span>`).join('')}</div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Body</label>
+        <textarea id="step-body-${i}" rows="5" placeholder="{{Salutation}},&#10;&#10;{{Personalized_Opening}}&#10;&#10;Best,&#10;Amin" onchange="_steps[${i}].body=this.value">${s.body}</textarea>
+        <div class="var-chips">${vars.map(v => `<span class="var-chip" onclick="insertVar('step-body-${i}','${v}')">${v}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function createCampaign() {
+  const name = document.getElementById('campName').value.trim();
+  if (!name) return toast('Campaign name is required', 'error');
+
+  // Sync step values from DOM
+  _steps.forEach((s, i) => {
+    s.delay   = parseInt(document.getElementById(`step-delay-${i}`)?.value || 0);
+    s.subject = document.getElementById(`step-sub-${i}`)?.value || '';
+    s.body    = document.getElementById(`step-body-${i}`)?.value || '';
+  });
+
+  const steps = _steps.filter(s => s.subject && s.body).map((s, i) => ({
+    step_number: i + 1, delay_days: s.delay,
+    subject_template: s.subject, body_template: s.body
+  }));
+
+  if (steps.length === 0) return toast('Add at least one step with subject and body', 'error');
+
+  try {
+    await post('/api/campaigns', {
+      name,
+      track_opens:  document.getElementById('campTrackOpens').checked,
+      track_clicks: document.getElementById('campTrackClicks').checked,
+      steps
+    });
+    closeModal('campaignModal');
+    toast('Campaign created!', 'success');
+    loadCampaigns();
+    loadImportCampaigns();
+  } catch (e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ── Inboxes ──────────────────────────────────────────────────────────────────
+async function loadInboxes() {
+  if (!API_URL) return;
+  try {
+    const inboxes = await get('/api/inboxes');
+    const tbody = document.getElementById('inboxesList');
+    tbody.innerHTML = inboxes.length ? inboxes.map(i => {
+      const pct = Math.round((i.sends_today / i.daily_limit) * 100);
+      return `<tr>
+        <td>${i.email}</td>
+        <td>
+          ${i.sends_today} / ${i.daily_limit}
+          <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+        </td>
+        <td>${i.daily_limit}</td>
+        <td>${i.total_sends_ever}</td>
+        <td><span class="badge ${i.active ? 'active' : 'paused'}">${i.active ? 'Active' : 'Paused'}</span></td>
+        <td><button class="btn btn-danger btn-sm" onclick="deactivateInbox(${i.id})">Deactivate</button></td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="6" class="empty">No inboxes. Add a Google Workspace inbox to start sending.</td></tr>`;
+  } catch (e) { toast('Load failed: ' + e.message, 'error'); }
+}
+
+function openAddInbox() {
+  document.getElementById('inboxEmail').value = '';
+  document.getElementById('inboxPass').value  = '';
+  document.getElementById('inboxLimit').value = '40';
+  document.getElementById('inboxModal').classList.add('open');
+}
+
+async function addInbox() {
+  const email = document.getElementById('inboxEmail').value.trim();
+  const pass  = document.getElementById('inboxPass').value.trim();
+  const limit = parseInt(document.getElementById('inboxLimit').value);
+  if (!email || !pass) return toast('Email and app password required', 'error');
+  try {
+    await post('/api/inboxes', { email, app_password: pass, daily_limit: limit });
+    closeModal('inboxModal');
+    toast('Inbox added!', 'success');
+    loadInboxes();
+  } catch (e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function deactivateInbox(id) {
+  if (!confirm('Deactivate this inbox?')) return;
+  try {
+    await del(`/api/inboxes/${id}`);
+    toast('Inbox deactivated', 'info');
+    loadInboxes();
+  } catch (e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ── Import ────────────────────────────────────────────────────────────────────
+async function loadImportCampaigns() {
+  if (!API_URL) return;
+  try {
+    const campaigns = await get('/api/campaigns');
+    const sel = document.getElementById('importCampaign');
+    sel.innerHTML = campaigns.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  } catch (_) {}
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  return lines.slice(1).map(line => {
+    const vals = line.match(/("([^"]*)"|[^,]*)/g).map(v => v.replace(/^"|"$/g, '').trim());
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = vals[i] || '');
+    return obj;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('importCsv').addEventListener('input', function() {
+    try {
+      const rows = parseCSV(this.value);
+      if (!rows.length) { document.getElementById('previewHead').innerHTML = ''; document.getElementById('previewBody').innerHTML = ''; return; }
+      const headers = Object.keys(rows[0]);
+      document.getElementById('previewHead').innerHTML = headers.map(h => `<th>${h}</th>`).join('');
+      document.getElementById('previewBody').innerHTML = rows.slice(0, 5).map(r =>
+        `<tr>${headers.map(h => `<td>${r[h] || ''}</td>`).join('')}</tr>`
+      ).join('');
+    } catch (_) {}
+  });
+});
+
+async function importLeads() {
+  const csvText    = document.getElementById('importCsv').value.trim();
+  const campaignId = parseInt(document.getElementById('importCampaign').value);
+  if (!csvText) return toast('Paste your CSV first', 'error');
+  if (!campaignId) return toast('Select a campaign', 'error');
+
+  const leads = parseCSV(csvText);
+  if (!leads.length) return toast('Could not parse CSV', 'error');
+
+  const btn = document.getElementById('importBtn');
+  btn.disabled = true; btn.textContent = 'Importing...';
+
+  try {
+    const result = await post('/api/leads/import', { campaign_id: campaignId, leads });
+    document.getElementById('importResult').innerHTML = `
+      <div class="stat-card success" style="display:inline-block;padding:12px 20px;margin-right:8px">
+        <div class="val" style="font-size:20px">${result.imported}</div><div class="lbl">Imported</div>
+      </div>
+      <div class="stat-card" style="display:inline-block;padding:12px 20px">
+        <div class="val" style="font-size:20px">${result.skipped}</div><div class="lbl">Skipped (dupes)</div>
+      </div>`;
+    toast(`${result.imported} leads imported!`, 'success');
+  } catch (e) { toast('Import failed: ' + e.message, 'error'); }
+  finally { btn.disabled = false; btn.textContent = 'Import Leads'; }
+}
+
+// ── Replies ───────────────────────────────────────────────────────────────────
+async function loadReplies() {
+  if (!API_URL) return;
+  try {
+    const replies = await get('/api/replies');
+    const tbody = document.getElementById('repliesList');
+    tbody.innerHTML = replies.length ? replies.map(r => `<tr>
+      <td>${r.email}</td>
+      <td>${r.first_name || '—'}</td>
+      <td>${r.company || '—'}</td>
+      <td>${r.campaign_name}</td>
+      <td>${new Date(r.occurred_at).toLocaleString()}</td>
+    </tr>`).join('') : `<tr><td colspan="5" class="empty">No replies yet</td></tr>`;
+  } catch (e) { toast('Load failed: ' + e.message, 'error'); }
+}
+
+// ── Settings ─────────────────────────────────────────────────────────────────
+function openSettings() {
+  document.getElementById('apiUrl').value = API_URL;
+  document.getElementById('apiKey').value = API_KEY;
+  document.getElementById('settingsModal').classList.add('open');
+}
+
+function saveSettings() {
+  API_URL = document.getElementById('apiUrl').value.trim().replace(/\/$/, '');
+  API_KEY = document.getElementById('apiKey').value.trim();
+  localStorage.setItem('outreach_api_url', API_URL);
+  localStorage.setItem('outreach_api_key', API_KEY);
+  closeModal('settingsModal');
+  toast('Settings saved', 'success');
+  loadOverview();
+}
+
+async function testConnection() {
+  const url = document.getElementById('apiUrl').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('apiKey').value.trim();
+  try {
+    const res = await fetch(url + '/api/health', { headers: { 'X-API-Key': key } });
+    if (res.ok) toast('Connection successful!', 'success');
+    else toast('Connection failed: ' + res.status, 'error');
+  } catch (e) { toast('Cannot reach server: ' + e.message, 'error'); }
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal-bg').forEach(bg =>
+  bg.addEventListener('click', e => { if (e.target === bg) bg.classList.remove('open'); })
+);
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+if (!API_URL) {
+  setTimeout(() => {
+    toast('Set your API URL in ⚙ Settings to get started', 'info');
+    openSettings();
+  }, 500);
+} else {
+  loadOverview();
+}
+</script>
+</body>
+</html>

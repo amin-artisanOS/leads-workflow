@@ -32,21 +32,32 @@
         "setup-email": "node setupEmailInfrastructure.js",
         "supplier-finder": "node simple-supplier-finder.js",
         "supplier-finder-manual": "node supplier-finder-manual.js",
-        "setup-supplier": "node setup-supplier-config.js"
+        "setup-supplier": "node setup-supplier-config.js",
+        "shopify-pipeline": "node COMMERIUM/shopify-leads-pipeline.js",
+        "outreach:add-inbox":      "node cli/add-inbox.js",
+        "outreach:import":         "node cli/import-leads.js",
+        "outreach:run":            "node cli/run-campaign.js",
+        "outreach:stats":          "node cli/stats.js",
+        "outreach:tracker":        "node engine/tracker.js",
+        "outreach:replies":        "node engine/reply-monitor.js",
+        "outreach:replies:watch":  "node engine/reply-monitor.js --watch",
+        "outreach:schema":         "psql $PG_CONNECTION_STRING -f engine/schema.sql"
     },
     "dependencies": {
         "@google/generative-ai": "^0.14.1",
         "apify": "^3.4.5",
-        "axios": "^1.13.2",
+        "axios": "^1.13.6",
         "cheerio": "^1.1.2",
-        "csv-parser": "^3.0.0",
+        "csv-parser": "^3.2.0",
         "csv-writer": "^1.6.0",
         "dotenv": "^16.6.1",
         "express": "^4.18.2",
         "googleapis": "^140.0.1",
+        "imapflow": "^1.2.18",
         "lucide-react": "^0.539.0",
         "nodemailer": "^6.9.8",
         "pdf-lib": "^1.17.1",
+        "pg": "^8.20.0",
         "sharp": "^0.34.3"
     }
 }

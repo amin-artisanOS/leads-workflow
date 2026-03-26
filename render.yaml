@@ -1,0 +1,46 @@
+databases:
+  - name: outreach-db
+    plan: free
+    region: oregon
+
+services:
+  - type: web
+    name: outreach-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PG_CONNECTION_STRING
+        fromDatabase:
+          name: outreach-db
+          property: connectionString
+      - key: TRACKING_URL
+        sync: false          # Set to your Render URL after first deploy: https://outreach-api.onrender.com
+      - key: API_SECRET
+        generateValue: true  # Auto-generated — copy from Render dashboard after deploy
+      - key: CORS_ORIGIN
+        sync: false          # Set to your Vercel frontend URL: https://outreach-dashboard.vercel.app
+      - key: GMAIL_CLIENT_ID
+        sync: false
+      - key: GMAIL_CLIENT_SECRET
+        sync: false
+      - key: NODE_ENV
+        value: production
+
+  - type: cron
+    name: outreach-reply-monitor
+    env: node
+    region: oregon
+    plan: free
+    schedule: "*/30 * * * *"
+    buildCommand: npm install
+    startCommand: node engine/reply-monitor.js
+    envVars:
+      - key: PG_CONNECTION_STRING
+        fromDatabase:
+          name: outreach-db
+          property: connectionString
+      - key: IMAP_LOOKBACK_DAYS
+        value: "2"
